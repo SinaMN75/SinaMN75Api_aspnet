@@ -34,6 +34,8 @@ public class AppDbContext : IdentityDbContext<UserEntity>
     public DbSet<ChatMessage> ChatMessages { get; set; }
     public DbSet<SeenMessage> SeenMessages { get; set; }
     public DbSet<ChatReaction> ChatReactions { get; set; }
+    public DbSet<ChatReacts> ChatReacts { get; set; }
+    public DbSet<CommentReacts> CommentReacts { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,7 +46,7 @@ public class AppDbContext : IdentityDbContext<UserEntity>
         foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
         {
             relationship.DeleteBehavior = DeleteBehavior.ClientCascade;
-        } 
+        }
     }
 
     public class ChatRoomConfig : IEntityTypeConfiguration<ChatRoom>
