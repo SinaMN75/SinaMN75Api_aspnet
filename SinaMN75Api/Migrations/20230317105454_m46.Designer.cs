@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SinaMN75Api.Core;
 
@@ -11,9 +12,10 @@ using SinaMN75Api.Core;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230317105454_m46")]
+    partial class m46
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,6 +247,36 @@ namespace SinaMN75Api.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Utilities_aspnet.Entities.BlockEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BlockedUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlockedUserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Blocks");
+                });
+
             modelBuilder.Entity("Utilities_aspnet.Entities.BookmarkEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -401,10 +433,87 @@ namespace SinaMN75Api.Migrations
                     b.ToTable("Chats");
                 });
 
+            modelBuilder.Entity("Utilities_aspnet.Entities.ChatMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CategoryEntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ChatRoomId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FromUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MessageText")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<Guid?>("ProductEntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("ReadPrivateMessage")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ReferenceId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ReferenceIdType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RepliedTo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ToGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ToUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserEntityId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UsersMentioned")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryEntityId");
+
+                    b.HasIndex("ChatRoomId");
+
+                    b.HasIndex("ProductEntityId");
+
+                    b.HasIndex("UserEntityId");
+
+                    b.ToTable("ChatMessages");
+                });
+
             modelBuilder.Entity("Utilities_aspnet.Entities.ChatReaction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ChatMessageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -423,6 +532,8 @@ namespace SinaMN75Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ChatMessageId");
 
                     b.ToTable("ChatReactions");
                 });
@@ -456,6 +567,36 @@ namespace SinaMN75Api.Migrations
                     b.HasIndex("ChatsId");
 
                     b.ToTable("ChatReacts");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.ChatRoom", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Users")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ChatRooms");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.CommentEntity", b =>
@@ -1503,6 +1644,37 @@ namespace SinaMN75Api.Migrations
                     b.ToTable("Reports");
                 });
 
+            modelBuilder.Entity("Utilities_aspnet.Entities.SeenMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ChatMessageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsSeen")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("User")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatMessageId");
+
+                    b.ToTable("SeenMessages");
+                });
+
             modelBuilder.Entity("Utilities_aspnet.Entities.TeamEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2076,6 +2248,23 @@ namespace SinaMN75Api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Utilities_aspnet.Entities.BlockEntity", b =>
+                {
+                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "BlockedUser")
+                        .WithMany()
+                        .HasForeignKey("BlockedUserId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("BlockedUser");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Utilities_aspnet.Entities.BookmarkEntity", b =>
                 {
                     b.HasOne("Utilities_aspnet.Entities.CategoryEntity", "Category")
@@ -2134,6 +2323,43 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("Parent");
 
                     b.Navigation("ToUser");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.ChatMessage", b =>
+                {
+                    b.HasOne("Utilities_aspnet.Entities.CategoryEntity", "CategoryEntity")
+                        .WithMany()
+                        .HasForeignKey("CategoryEntityId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.HasOne("Utilities_aspnet.Entities.ChatRoom", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("ChatRoomId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.HasOne("Utilities_aspnet.Entities.ProductEntity", "ProductEntity")
+                        .WithMany()
+                        .HasForeignKey("ProductEntityId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "UserEntity")
+                        .WithMany()
+                        .HasForeignKey("UserEntityId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("CategoryEntity");
+
+                    b.Navigation("ProductEntity");
+
+                    b.Navigation("UserEntity");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.ChatReaction", b =>
+                {
+                    b.HasOne("Utilities_aspnet.Entities.ChatMessage", null)
+                        .WithMany("Emojies")
+                        .HasForeignKey("ChatMessageId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ChatReacts", b =>
@@ -2491,6 +2717,14 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Utilities_aspnet.Entities.SeenMessage", b =>
+                {
+                    b.HasOne("Utilities_aspnet.Entities.ChatMessage", null)
+                        .WithMany("SeenStatus")
+                        .HasForeignKey("ChatMessageId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+                });
+
             modelBuilder.Entity("Utilities_aspnet.Entities.TeamEntity", b =>
                 {
                     b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
@@ -2612,6 +2846,18 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("ChatReacts");
 
                     b.Navigation("Media");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.ChatMessage", b =>
+                {
+                    b.Navigation("Emojies");
+
+                    b.Navigation("SeenStatus");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.ChatRoom", b =>
+                {
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.CommentEntity", b =>

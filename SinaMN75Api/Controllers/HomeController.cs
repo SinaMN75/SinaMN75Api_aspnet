@@ -1,10 +1,5 @@
 ﻿namespace SinaMN75Api.Controllers;
 
 public class HomeController : Controller {
-
-	public IActionResult Index() {
-		return View();
-	}	public IActionResult paystripe() {
-		return View();
-	}
+	public IActionResult Index() => View();
 }

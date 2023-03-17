@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Newtonsoft.Json;
-
-namespace SinaMN75Api.Core;
+﻿namespace SinaMN75Api.Core;
 
 public class AppDbContext : IdentityDbContext<UserEntity>
 {
@@ -24,15 +21,11 @@ public class AppDbContext : IdentityDbContext<UserEntity>
     public DbSet<FormFieldEntity> FormFields { get; set; }
     public DbSet<ChatEntity> Chats { get; set; }
     public DbSet<CommentEntity> Comments { get; set; }
-    public DbSet<BlockEntity> Blocks { get; set; }
     public DbSet<OrderEntity> Orders { get; set; }
     public DbSet<TopProductEntity> TopProducts { get; set; }
     public DbSet<DiscountEntity> Discounts { get; set; }
     public DbSet<ProductInsight> ProductInsights { get; set; }
     public DbSet<VisitProducts> VisitProducts { get; set; }
-    public DbSet<ChatRoom> ChatRooms { get; set; }
-    public DbSet<ChatMessage> ChatMessages { get; set; }
-    public DbSet<SeenMessage> SeenMessages { get; set; }
     public DbSet<ChatReaction> ChatReactions { get; set; }
     public DbSet<ChatReacts> ChatReacts { get; set; }
     public DbSet<CommentReacts> CommentReacts { get; set; }
@@ -46,32 +39,6 @@ public class AppDbContext : IdentityDbContext<UserEntity>
         foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
         {
             relationship.DeleteBehavior = DeleteBehavior.ClientCascade;
-        }
-    }
-
-    public class ChatRoomConfig : IEntityTypeConfiguration<ChatRoom>
-    {
-        public void Configure(EntityTypeBuilder<ChatRoom> builder)
-        {
-            builder
-            .Property(e => e.Users)
-            .HasConversion(
-            v => JsonConvert.SerializeObject(v),
-            v => JsonConvert.DeserializeObject<List<string>>(v)
-            );
-        }
-    }
-
-    public class MessagesConfig : IEntityTypeConfiguration<ChatMessage>
-    {
-        public void Configure(EntityTypeBuilder<ChatMessage> builder)
-        {
-            builder
-            .Property(e => e.UsersMentioned)
-            .HasConversion(
-            v => JsonConvert.SerializeObject(v),
-            v => JsonConvert.DeserializeObject<List<string>>(v)
-            );
         }
     }
 }
