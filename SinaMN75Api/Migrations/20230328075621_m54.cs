@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SinaMN75Api.Migrations
 {
-    public partial class m53 : Migration
+    public partial class m54 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,12 +18,6 @@ namespace SinaMN75Api.Migrations
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
-
-            migrationBuilder.AddColumn<string>(
-                name: "UsersSeen",
-                table: "GroupChatMessage",
-                type: "nvarchar(max)",
-                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -31,10 +25,6 @@ namespace SinaMN75Api.Migrations
             migrationBuilder.DropColumn(
                 name: "Teams",
                 table: "Products");
-
-            migrationBuilder.DropColumn(
-                name: "UsersSeen",
-                table: "GroupChatMessage");
 
             migrationBuilder.CreateTable(
                 name: "Teams",
