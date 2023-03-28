@@ -12,7 +12,6 @@ public class AppDbContext : IdentityDbContext<UserEntity>
     public DbSet<FollowEntity> Follows { get; set; }
     public DbSet<BookmarkEntity> Bookmarks { get; set; }
     public DbSet<MediaEntity> Media { get; set; }
-    public DbSet<TeamEntity> Teams { get; set; }
     public DbSet<VoteEntity> Votes { get; set; }
     public DbSet<VoteFieldEntity> VoteFields { get; set; }
     public DbSet<ContentEntity> Contents { get; set; }
