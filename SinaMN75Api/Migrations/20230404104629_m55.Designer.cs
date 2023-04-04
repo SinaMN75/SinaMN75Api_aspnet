@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SinaMN75Api.Core;
 
@@ -11,9 +12,10 @@ using SinaMN75Api.Core;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230404104629_m55")]
+    partial class m55
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,21 +37,6 @@ namespace SinaMN75Api.Migrations
                     b.HasIndex("BookmarksId");
 
                     b.ToTable("BookmarkEntityBookmarkFolderEntity");
-                });
-
-            modelBuilder.Entity("CategoryEntityGroupChatEntity", b =>
-                {
-                    b.Property<Guid>("CategoriesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("GroupChatsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CategoriesId", "GroupChatsId");
-
-                    b.HasIndex("GroupChatsId");
-
-                    b.ToTable("CategoryEntityGroupChatEntity");
                 });
 
             modelBuilder.Entity("CategoryEntityOrderDetailEntity", b =>
@@ -407,9 +394,6 @@ namespace SinaMN75Api.Migrations
                     b.Property<string>("UseCase")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<double?>("Value")
-                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -1940,21 +1924,6 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.BookmarkEntity", null)
                         .WithMany()
                         .HasForeignKey("BookmarksId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CategoryEntityGroupChatEntity", b =>
-                {
-                    b.HasOne("Utilities_aspnet.Entities.CategoryEntity", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("Utilities_aspnet.Entities.GroupChatEntity", null)
-                        .WithMany()
-                        .HasForeignKey("GroupChatsId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
