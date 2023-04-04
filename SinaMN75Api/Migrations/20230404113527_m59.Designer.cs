@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SinaMN75Api.Core;
 
@@ -11,9 +12,10 @@ using SinaMN75Api.Core;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230404113527_m59")]
+    partial class m59
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -959,14 +961,6 @@ namespace SinaMN75Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Album")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Artist")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<Guid?>("BookmarkFolderEntityId")
                         .HasColumnType("uniqueidentifier");
 
@@ -1012,10 +1006,6 @@ namespace SinaMN75Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Size")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Time")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
