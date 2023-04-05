@@ -34,7 +34,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("BookmarksId");
 
-                    b.ToTable("BookmarkEntityBookmarkFolderEntity");
+                    b.ToTable("BookmarkEntityBookmarkFolderEntity", (string)null);
                 });
 
             modelBuilder.Entity("CategoryEntityGroupChatEntity", b =>
@@ -49,7 +49,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("GroupChatsId");
 
-                    b.ToTable("CategoryEntityGroupChatEntity");
+                    b.ToTable("CategoryEntityGroupChatEntity", (string)null);
                 });
 
             modelBuilder.Entity("CategoryEntityOrderDetailEntity", b =>
@@ -64,7 +64,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("OrderDetailsId");
 
-                    b.ToTable("CategoryEntityOrderDetailEntity");
+                    b.ToTable("CategoryEntityOrderDetailEntity", (string)null);
                 });
 
             modelBuilder.Entity("CategoryEntityProductEntity", b =>
@@ -79,7 +79,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("CategoryEntityProductEntity");
+                    b.ToTable("CategoryEntityProductEntity", (string)null);
                 });
 
             modelBuilder.Entity("CategoryEntityUserEntity", b =>
@@ -94,7 +94,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("CategoryEntityUserEntity");
+                    b.ToTable("CategoryEntityUserEntity", (string)null);
                 });
 
             modelBuilder.Entity("ChatEntityProductEntity", b =>
@@ -109,7 +109,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("ChatEntityProductEntity");
+                    b.ToTable("ChatEntityProductEntity", (string)null);
                 });
 
             modelBuilder.Entity("GroupChatEntityProductEntity", b =>
@@ -124,7 +124,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("GroupChatEntityProductEntity");
+                    b.ToTable("GroupChatEntityProductEntity", (string)null);
                 });
 
             modelBuilder.Entity("GroupChatEntityUserEntity", b =>
@@ -139,7 +139,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("GroupChatEntityUserEntity");
+                    b.ToTable("GroupChatEntityUserEntity", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -311,7 +311,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookmarks");
+                    b.ToTable("Bookmarks", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.BookmarkFolderEntity", b =>
@@ -340,7 +340,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BookmarkFolderEntity");
+                    b.ToTable("BookmarkFolderEntity", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.CategoryEntity", b =>
@@ -415,7 +415,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ChatEntity", b =>
@@ -460,7 +460,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("ToUserId");
 
-                    b.ToTable("Chats");
+                    b.ToTable("Chats", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ChatReaction", b =>
@@ -486,7 +486,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ChatReactions");
+                    b.ToTable("ChatReactions", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ChatReacts", b =>
@@ -517,7 +517,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("ChatsId");
 
-                    b.ToTable("ChatReacts");
+                    b.ToTable("ChatReacts", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.CommentEntity", b =>
@@ -562,7 +562,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comment", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.CommentReacts", b =>
@@ -593,7 +593,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("CommentId");
 
-                    b.ToTable("CommentReacts");
+                    b.ToTable("CommentReacts", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ContentEntity", b =>
@@ -633,7 +633,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contents");
+                    b.ToTable("Contents", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.DiscountEntity", b =>
@@ -672,7 +672,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Discount");
+                    b.ToTable("Discount", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.FollowEntity", b =>
@@ -702,7 +702,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("FollowsUserId");
 
-                    b.ToTable("Follows");
+                    b.ToTable("Follows", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.FormEntity", b =>
@@ -755,7 +755,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Forms");
+                    b.ToTable("Forms", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.FormFieldEntity", b =>
@@ -803,7 +803,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("FormFields");
+                    b.ToTable("FormFields", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.GroupChatEntity", b =>
@@ -857,7 +857,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GroupChat");
+                    b.ToTable("GroupChat", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.GroupChatMessageEntity", b =>
@@ -917,7 +917,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("GroupChatMessage");
+                    b.ToTable("GroupChatMessage", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.LikeCommentEntity", b =>
@@ -950,7 +950,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("LikeComment");
+                    b.ToTable("LikeComment", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.MediaEntity", b =>
@@ -1057,7 +1057,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Media");
+                    b.ToTable("Media", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.NotificationEntity", b =>
@@ -1109,7 +1109,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.OrderDetailEntity", b =>
@@ -1145,7 +1145,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetail");
+                    b.ToTable("OrderDetail", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.OrderEntity", b =>
@@ -1221,7 +1221,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Order", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.OtpEntity", b =>
@@ -1251,7 +1251,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Otps");
+                    b.ToTable("Otps", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ProductEntity", b =>
@@ -1440,7 +1440,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ProductInsight", b =>
@@ -1475,7 +1475,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ProductsInsight");
+                    b.ToTable("ProductsInsight", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ReportEntity", b =>
@@ -1541,7 +1541,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reports");
+                    b.ToTable("Reports", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.SeenUsers", b =>
@@ -1570,7 +1570,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SeenUsers");
+                    b.ToTable("SeenUsers", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.TransactionEntity", b =>
@@ -1625,7 +1625,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.UserEntity", b =>
@@ -1880,7 +1880,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("VisitProducts");
+                    b.ToTable("VisitProducts", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.VoteEntity", b =>
@@ -1918,7 +1918,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("VoteFieldId");
 
-                    b.ToTable("Votes");
+                    b.ToTable("Votes", (string)null);
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.VoteFieldEntity", b =>
@@ -1946,7 +1946,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("VoteFields");
+                    b.ToTable("VoteFields", (string)null);
                 });
 
             modelBuilder.Entity("BookmarkEntityBookmarkFolderEntity", b =>
