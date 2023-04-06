@@ -2435,7 +2435,7 @@ namespace SinaMN75Api.Migrations
             modelBuilder.Entity("Utilities_aspnet.Entities.OrderDetailEntity", b =>
                 {
                     b.HasOne("Utilities_aspnet.Entities.CategoryEntity", "Category")
-                        .WithMany("OrderDetails")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.ClientCascade);
 
@@ -2660,8 +2660,6 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("FormFields");
 
                     b.Navigation("Media");
-
-                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ChatEntity", b =>
