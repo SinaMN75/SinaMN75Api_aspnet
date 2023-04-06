@@ -39,4 +39,8 @@ public class PaymentController : Controller {
 		GenericResponse i = await _paymentRepository.CallBack(productId, authority, status, ZarinPalMerchantId);
 		return RedirectToAction(i.Status == UtilitiesStatusCodes.Success ? nameof(Verify) : nameof(Fail));
 	}
+
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	[HttpGet("PayOrderZarinPal/{orderId}")]
+	public async Task<GenericResponse<string?>> BuyProduct(Guid orderId) => await _paymentRepository.PayOrderZarinPal(orderId, ZarinPalMerchantId);
 }
