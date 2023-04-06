@@ -27,6 +27,7 @@ public class AppDbContext : IdentityDbContext<UserEntity>
     public DbSet<ChatReaction> ChatReactions { get; set; }
     public DbSet<ChatReacts> ChatReacts { get; set; }
     public DbSet<CommentReacts> CommentReacts { get; set; }
+    public DbSet<SeenUsers> SeenUsers { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
