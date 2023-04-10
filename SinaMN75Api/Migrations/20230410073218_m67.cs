@@ -9,31 +9,22 @@ namespace SinaMN75Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "UseCase",
+                name: "Type",
                 table: "GroupChat");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "Type",
-                table: "GroupChat",
-                type: "int",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(500)",
-                oldMaxLength: 500,
-                oldNullable: true);
+            migrationBuilder.DropColumn(
+                name: "UseCase",
+                table: "GroupChat");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
+            migrationBuilder.AddColumn<string>(
                 name: "Type",
                 table: "GroupChat",
                 type: "nvarchar(500)",
                 maxLength: 500,
-                nullable: true,
-                oldClrType: typeof(int),
-                oldType: "int",
-                oldNullable: true);
+                nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "UseCase",

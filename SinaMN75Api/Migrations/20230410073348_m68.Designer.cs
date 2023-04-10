@@ -12,8 +12,8 @@ using SinaMN75Api.Core;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230410072729_m67")]
-    partial class m67
+    [Migration("20230410073348_m68")]
+    partial class m68
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
