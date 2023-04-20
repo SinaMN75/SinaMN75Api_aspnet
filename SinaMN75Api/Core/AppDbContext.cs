@@ -9,11 +9,8 @@ public class AppDbContext : IdentityDbContext<UserEntity>
     public DbSet<ReportEntity> Reports { get; set; }
     public DbSet<NotificationEntity> Notifications { get; set; }
     public DbSet<FormEntity> Forms { get; set; }
-    // public DbSet<FollowEntity> Follows { get; set; }
     public DbSet<BookmarkEntity> Bookmarks { get; set; }
     public DbSet<MediaEntity> Media { get; set; }
-    public DbSet<VoteEntity> Votes { get; set; }
-    public DbSet<VoteFieldEntity> VoteFields { get; set; }
     public DbSet<ContentEntity> Contents { get; set; }
     public DbSet<OtpEntity> Otps { get; set; }
     public DbSet<CategoryEntity> Categories { get; set; }
