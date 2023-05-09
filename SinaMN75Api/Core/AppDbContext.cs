@@ -26,7 +26,6 @@ public class AppDbContext : IdentityDbContext<UserEntity>
     public DbSet<CommentReacts> CommentReacts { get; set; }
     public DbSet<SeenUsers> SeenUsers { get; set; }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
