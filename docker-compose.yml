@@ -1,0 +1,14 @@
+﻿services:
+  sinamn75api:
+    image: sinamn75api
+    build: .
+    ports:
+      - "8085:80"
+      - "8081:443"
+    environment:
+      ASPNETCORE_URLS: "https://+;http://+"
+      ASPNETCORE_HTTPS_PORT: "8081"
+      ASPNETCORE_ENVIRONMENT: "Development"
+    volumes:
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets
+      - ~/.aspnet/https:/root/.aspnet/https
