@@ -21,8 +21,7 @@ public class AppDbContext : IdentityDbContext<UserEntity>
     public DbSet<DiscountEntity> Discounts { get; set; }
     public DbSet<ProductInsight> ProductInsights { get; set; }
     public DbSet<VisitProducts> VisitProducts { get; set; }
-    public DbSet<ChatReaction> ChatReactions { get; set; }
-    public DbSet<ChatReacts> ChatReacts { get; set; }
+    public DbSet<ReactionEntity> ReactionEntity { get; set; }
     public DbSet<CommentReacts> CommentReacts { get; set; }
     public DbSet<SeenUsers> SeenUsers { get; set; }
 
