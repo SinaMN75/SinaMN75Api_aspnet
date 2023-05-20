@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SinaMN75Api.Core;
 
@@ -11,9 +12,11 @@ using SinaMN75Api.Core;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230520081719_m86")]
+    partial class m86
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1883,51 +1886,6 @@ namespace SinaMN75Api.Migrations
                     b.ToTable("VisitProducts");
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.WithdrawEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AdminUserEntityId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AdminUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<string>("ApplicantUserEntityId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ApplicantUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ShebaNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("WithdrawState")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdminUserEntityId");
-
-                    b.HasIndex("ApplicantUserEntityId");
-
-                    b.ToTable("Withdraw");
-                });
-
             modelBuilder.Entity("CategoryEntityGroupChatEntity", b =>
                 {
                     b.HasOne("Utilities_aspnet.Entities.CategoryEntity", null)
@@ -2591,23 +2549,6 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Utilities_aspnet.Entities.WithdrawEntity", b =>
-                {
-                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "AdminUserEntity")
-                        .WithMany()
-                        .HasForeignKey("AdminUserEntityId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "ApplicantUserEntity")
-                        .WithMany()
-                        .HasForeignKey("ApplicantUserEntityId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.Navigation("AdminUserEntity");
-
-                    b.Navigation("ApplicantUserEntity");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.BookmarkEntity", b =>
