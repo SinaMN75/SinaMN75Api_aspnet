@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SinaMN75Api.Core;
 
@@ -11,9 +12,11 @@ using SinaMN75Api.Core;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230520234841_m89")]
+    partial class m89
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1065,9 +1068,6 @@ namespace SinaMN75Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AddressId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -1130,8 +1130,6 @@ namespace SinaMN75Api.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
 
                     b.HasIndex("ProductOwnerId");
 
@@ -1298,8 +1296,8 @@ namespace SinaMN75Api.Migrations
                     b.Property<double?>("ShippingCost")
                         .HasColumnType("float");
 
-                    b.Property<int?>("ShippingTime")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("ShippingTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
@@ -2425,11 +2423,6 @@ namespace SinaMN75Api.Migrations
 
             modelBuilder.Entity("Utilities_aspnet.Entities.OrderEntity", b =>
                 {
-                    b.HasOne("Utilities_aspnet.Entities.AddressEntity", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "ProductOwner")
                         .WithMany()
                         .HasForeignKey("ProductOwnerId")
@@ -2439,8 +2432,6 @@ namespace SinaMN75Api.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.Navigation("Address");
 
                     b.Navigation("ProductOwner");
 
