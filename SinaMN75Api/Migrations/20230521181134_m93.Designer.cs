@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SinaMN75Api.Core;
 
@@ -11,9 +12,11 @@ using SinaMN75Api.Core;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230521181134_m93")]
+    partial class m93
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -748,9 +751,6 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<bool>("IsBoosted")
-                        .HasColumnType("bit");
-
                     b.Property<int?>("Priority")
                         .HasColumnType("int");
 
@@ -1240,9 +1240,6 @@ namespace SinaMN75Api.Migrations
                     b.Property<double?>("Height")
                         .HasColumnType("float");
 
-                    b.Property<bool>("IsBoosted")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsPhysical")
                         .HasColumnType("bit");
 
@@ -1430,59 +1427,6 @@ namespace SinaMN75Api.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ProductsInsight");
-                });
-
-            modelBuilder.Entity("Utilities_aspnet.Entities.PromotionEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AgeCategories")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DisplayType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("GroupChatId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Skills")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("States")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Users")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupChatId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Promotion");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ReactionEntity", b =>
@@ -1695,9 +1639,6 @@ namespace SinaMN75Api.Migrations
                     b.Property<string>("Activity")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<int>("AgeCategory")
-                        .HasColumnType("int");
 
                     b.Property<string>("AppEmail")
                         .HasMaxLength(500)
@@ -2583,30 +2524,6 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Reaction");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Utilities_aspnet.Entities.PromotionEntity", b =>
-                {
-                    b.HasOne("Utilities_aspnet.Entities.GroupChatEntity", "GroupChat")
-                        .WithMany()
-                        .HasForeignKey("GroupChatId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.Navigation("GroupChat");
-
-                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
