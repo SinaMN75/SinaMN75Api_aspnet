@@ -25,7 +25,6 @@ public class AppDbContext : IdentityDbContext<UserEntity>
     public DbSet<CommentReacts> CommentReacts { get; set; }
     public DbSet<SeenUsers> SeenUsers { get; set; }
     public DbSet<WithdrawEntity> Withdraw { get; set; }
-    public DbSet<PromotionEntity> Promotions{ get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
