@@ -5,24 +5,40 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SinaMN75Api.Core;
+using SinaMN75Api;
 
 #nullable disable
 
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220908075253_m5")]
-    partial class m5
+    [Migration("20230525121134_m1")]
+    partial class m1
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CategoryEntityGroupChatEntity", b =>
+                {
+                    b.Property<Guid>("CategoriesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GroupChatsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CategoriesId", "GroupChatsId");
+
+                    b.HasIndex("GroupChatsId");
+
+                    b.ToTable("CategoryEntityGroupChatEntity");
+                });
 
             modelBuilder.Entity("CategoryEntityProductEntity", b =>
                 {
@@ -52,6 +68,51 @@ namespace SinaMN75Api.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("CategoryEntityUserEntity");
+                });
+
+            modelBuilder.Entity("ChatEntityProductEntity", b =>
+                {
+                    b.Property<Guid>("ChatsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ChatsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("ChatEntityProductEntity");
+                });
+
+            modelBuilder.Entity("GroupChatEntityProductEntity", b =>
+                {
+                    b.Property<Guid>("GroupChatId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("GroupChatId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("GroupChatEntityProductEntity");
+                });
+
+            modelBuilder.Entity("GroupChatEntityUserEntity", b =>
+                {
+                    b.Property<Guid>("GroupChatsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("GroupChatsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("GroupChatEntityUserEntity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -87,7 +148,7 @@ namespace SinaMN75Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -112,7 +173,7 @@ namespace SinaMN75Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -187,20 +248,38 @@ namespace SinaMN75Api.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.BlockEntity", b =>
+            modelBuilder.Entity("Utilities_aspnet.Entities.AddressEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BlockedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Pelak")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReceiverFullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReceiverPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -210,11 +289,9 @@ namespace SinaMN75Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BlockedUserId");
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("Blocks");
+                    b.ToTable("Address");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.BookmarkEntity", b =>
@@ -236,6 +313,9 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
@@ -248,6 +328,8 @@ namespace SinaMN75Api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ParentId");
 
                     b.HasIndex("ProductId");
 
@@ -269,31 +351,20 @@ namespace SinaMN75Api.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("Date1")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("Date2")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<double?>("Latitude")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Link")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<double?>("Longitude")
-                        .HasColumnType("float");
+                    b.Property<int?>("Order")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Subtitle")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                    b.Property<double?>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("Stock")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasMaxLength(500)
@@ -346,6 +417,9 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("ReadMessage")
                         .HasColumnType("bit");
 
@@ -359,6 +433,8 @@ namespace SinaMN75Api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FromUserId");
+
+                    b.HasIndex("ParentId");
 
                     b.HasIndex("ToUserId");
 
@@ -390,6 +466,9 @@ namespace SinaMN75Api.Migrations
                     b.Property<double?>("Score")
                         .HasColumnType("float");
 
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -405,6 +484,37 @@ namespace SinaMN75Api.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comment");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.CommentReacts", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CommentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Reaction")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.ToTable("CommentReacts");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ContentEntity", b =>
@@ -428,6 +538,10 @@ namespace SinaMN75Api.Migrations
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Title")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Type")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -482,36 +596,6 @@ namespace SinaMN75Api.Migrations
                     b.ToTable("Discount");
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.FollowEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FollowerUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FollowsUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FollowerUserId");
-
-                    b.HasIndex("FollowsUserId");
-
-                    b.ToTable("Follows");
-                });
-
             modelBuilder.Entity("Utilities_aspnet.Entities.FormEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -537,12 +621,15 @@ namespace SinaMN75Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("UseCase")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -588,17 +675,135 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int?>("Type")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UseCase")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("ParentId");
+
                     b.ToTable("FormFields");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.GroupChatEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("ChatStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorUserId")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Department")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsBoosted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("Priority")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int?>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Value")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GroupChat");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.GroupChatMessageEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ForwardedMessageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("GroupChatId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Message")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SeenUsersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Type")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UseCase")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ForwardedMessageId");
+
+                    b.HasIndex("GroupChatId");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("SeenUsersId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("GroupChatMessage");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.LikeCommentEntity", b =>
@@ -640,6 +845,17 @@ namespace SinaMN75Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Album")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Artist")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("BookmarkId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
@@ -662,6 +878,19 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<Guid?>("GroupChatId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("GroupChatMessageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("IsPrivate")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JsonDetail")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
                     b.Property<string>("Link")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -673,6 +902,10 @@ namespace SinaMN75Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Size")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Time")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -692,6 +925,8 @@ namespace SinaMN75Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BookmarkId");
+
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("ChatId");
@@ -699,6 +934,10 @@ namespace SinaMN75Api.Migrations
                     b.HasIndex("CommentId");
 
                     b.HasIndex("ContentId");
+
+                    b.HasIndex("GroupChatId");
+
+                    b.HasIndex("GroupChatMessageId");
 
                     b.HasIndex("NotificationId");
 
@@ -732,6 +971,12 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("SeenStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -753,6 +998,8 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("CreatorUserId");
 
+                    b.HasIndex("ProductId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Notifications");
@@ -762,6 +1009,9 @@ namespace SinaMN75Api.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("Count")
@@ -787,6 +1037,8 @@ namespace SinaMN75Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
@@ -798,6 +1050,9 @@ namespace SinaMN75Api.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AddressId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -830,6 +1085,13 @@ namespace SinaMN75Api.Migrations
                     b.Property<int?>("PayType")
                         .HasColumnType("int");
 
+                    b.Property<string>("ProductOwnerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProductUseCase")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<DateTime?>("ReceivedDate")
                         .HasColumnType("datetime2");
 
@@ -838,6 +1100,9 @@ namespace SinaMN75Api.Migrations
 
                     b.Property<int?>("SendType")
                         .HasColumnType("int");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Status")
                         .HasColumnType("int");
@@ -852,6 +1117,10 @@ namespace SinaMN75Api.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("ProductOwnerId");
 
                     b.HasIndex("UserId");
 
@@ -898,12 +1167,18 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<int?>("AgeCategory")
+                        .HasColumnType("int");
+
                     b.Property<string>("Author")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("Currency")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -916,6 +1191,12 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
+                    b.Property<int?>("DiscountPercent")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("DiscountPrice")
+                        .HasColumnType("float");
+
                     b.Property<string>("Email")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -926,11 +1207,24 @@ namespace SinaMN75Api.Migrations
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("ExpireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("GroupChatMessageEntityId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<double?>("Height")
                         .HasColumnType("float");
 
-                    b.Property<bool?>("IsForSale")
+                    b.Property<bool>("IsBoosted")
                         .HasColumnType("bit");
+
+                    b.Property<bool>("IsPhysical")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JsonDetail")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("KeyValues1")
                         .HasMaxLength(2000)
@@ -965,24 +1259,41 @@ namespace SinaMN75Api.Migrations
                     b.Property<double?>("MinPrice")
                         .HasColumnType("float");
 
-                    b.Property<string>("Packaging")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                    b.Property<double?>("OnTimeDelivery")
+                        .HasColumnType("float");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Port")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<double?>("Price")
                         .HasColumnType("float");
 
-                    b.Property<string>("Shipping")
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("ProductState")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RelatedIds")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<double?>("ResponseTime")
+                        .HasColumnType("float");
+
+                    b.Property<string>("SeenUsers")
+                        .HasMaxLength(100000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("ShippingCost")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("ShippingTime")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
@@ -1009,6 +1320,10 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<string>("Teams")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -1031,58 +1346,6 @@ namespace SinaMN75Api.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Value")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Value1")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Value10")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Value11")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Value12")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Value2")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Value3")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Value4")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Value5")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Value6")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Value7")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Value8")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Value9")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<int?>("VisitsCount")
                         .HasColumnType("int");
 
@@ -1101,15 +1364,151 @@ namespace SinaMN75Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GroupChatMessageEntityId");
+
+                    b.HasIndex("ProductId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.ProductInsight", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ReactionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ReactionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ProductsInsight");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.PromotionEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AgeCategories")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DisplayType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("GroupChatId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Skills")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("States")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Users")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupChatId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Promotion");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.ReactionEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ChatsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("Reaction")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatsId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reaction");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ReportEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ChatId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CommentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -1125,8 +1524,17 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<Guid?>("GroupChatId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("GroupChatMessageId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("ProductId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ReportType")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasMaxLength(500)
@@ -1140,7 +1548,15 @@ namespace SinaMN75Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("CommentId");
+
                     b.HasIndex("CreatorUserId");
+
+                    b.HasIndex("GroupChatId");
+
+                    b.HasIndex("GroupChatMessageId");
 
                     b.HasIndex("ProductId");
 
@@ -1149,7 +1565,7 @@ namespace SinaMN75Api.Migrations
                     b.ToTable("Reports");
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.TeamEntity", b =>
+            modelBuilder.Entity("Utilities_aspnet.Entities.SeenUsers", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1161,52 +1577,21 @@ namespace SinaMN75Api.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("ProductId")
+                    b.Property<Guid?>("Fk_GroupChat")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("Fk_GroupChatMessage")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Fk_UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Teams");
-                });
-
-            modelBuilder.Entity("Utilities_aspnet.Entities.TopProductEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("TopProducts");
+                    b.ToTable("SeenUsers");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.TransactionEntity", b =>
@@ -1236,15 +1621,23 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<string>("JsonDetail")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("PaymentId")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<long?>("RefId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("ShebaNumber")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");
@@ -1257,7 +1650,7 @@ namespace SinaMN75Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("UserId");
 
@@ -1278,6 +1671,9 @@ namespace SinaMN75Api.Migrations
                     b.Property<string>("Activity")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("AgeCategory")
+                        .HasColumnType("int");
 
                     b.Property<string>("AppEmail")
                         .HasMaxLength(500)
@@ -1301,6 +1697,18 @@ namespace SinaMN75Api.Migrations
                     b.Property<DateTime?>("Birthdate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("BlockedUsers")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BookmarkedProducts")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BoughtProduts")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Color")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -1315,6 +1723,14 @@ namespace SinaMN75Api.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Detail1")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Detail2")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("Dribble")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -1326,9 +1742,20 @@ namespace SinaMN75Api.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("ExpireUpgradeAccount")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("FirstName")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("FollowedUsers")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FollowingUsers")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .HasMaxLength(500)
@@ -1337,9 +1764,6 @@ namespace SinaMN75Api.Migrations
                     b.Property<string>("Gender")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<int?>("GenderId")
-                        .HasColumnType("int");
 
                     b.Property<string>("GenderTr1")
                         .HasMaxLength(500)
@@ -1357,6 +1781,25 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<bool>("IsAuthorize")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsForeigner")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsLoggedIn")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsOnline")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JsonDetail")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
                     b.Property<string>("LastName")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -1370,6 +1813,12 @@ namespace SinaMN75Api.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("MeliCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MutedChats")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -1400,6 +1849,9 @@ namespace SinaMN75Api.Migrations
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShebaNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("ShowContactInfo")
@@ -1438,9 +1890,17 @@ namespace SinaMN75Api.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UseCase")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("VisitedProducts")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("Wallet")
                         .HasColumnType("float");
@@ -1466,7 +1926,7 @@ namespace SinaMN75Api.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.VoteEntity", b =>
+            modelBuilder.Entity("Utilities_aspnet.Entities.VisitProducts", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1480,9 +1940,6 @@ namespace SinaMN75Api.Migrations
 
                     b.Property<Guid?>("ProductId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<double?>("Score")
-                        .HasColumnType("float");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -1490,25 +1947,35 @@ namespace SinaMN75Api.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid?>("VoteFieldId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("VoteFieldId");
-
-                    b.ToTable("Votes");
+                    b.ToTable("VisitProducts");
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.VoteFieldEntity", b =>
+            modelBuilder.Entity("Utilities_aspnet.Entities.WithdrawEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AdminUserEntityId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AdminUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ApplicantUserEntityId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicantUserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -1516,20 +1983,37 @@ namespace SinaMN75Api.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Title")
+                    b.Property<string>("ShebaNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("WithdrawState")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("AdminUserEntityId");
 
-                    b.ToTable("VoteFields");
+                    b.HasIndex("ApplicantUserEntityId");
+
+                    b.ToTable("Withdraw");
+                });
+
+            modelBuilder.Entity("CategoryEntityGroupChatEntity", b =>
+                {
+                    b.HasOne("Utilities_aspnet.Entities.CategoryEntity", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Utilities_aspnet.Entities.GroupChatEntity", null)
+                        .WithMany()
+                        .HasForeignKey("GroupChatsId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CategoryEntityProductEntity", b =>
@@ -1537,13 +2021,13 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.CategoryEntity", null)
                         .WithMany()
                         .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Utilities_aspnet.Entities.ProductEntity", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -1552,13 +2036,58 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.CategoryEntity", null)
                         .WithMany()
                         .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ChatEntityProductEntity", b =>
+                {
+                    b.HasOne("Utilities_aspnet.Entities.ChatEntity", null)
+                        .WithMany()
+                        .HasForeignKey("ChatsId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Utilities_aspnet.Entities.ProductEntity", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GroupChatEntityProductEntity", b =>
+                {
+                    b.HasOne("Utilities_aspnet.Entities.GroupChatEntity", null)
+                        .WithMany()
+                        .HasForeignKey("GroupChatId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Utilities_aspnet.Entities.ProductEntity", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GroupChatEntityUserEntity", b =>
+                {
+                    b.HasOne("Utilities_aspnet.Entities.GroupChatEntity", null)
+                        .WithMany()
+                        .HasForeignKey("GroupChatsId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Utilities_aspnet.Entities.UserEntity", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -1567,7 +2096,7 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -1576,7 +2105,7 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -1585,7 +2114,7 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -1594,13 +2123,13 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -1609,23 +2138,16 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.BlockEntity", b =>
+            modelBuilder.Entity("Utilities_aspnet.Entities.AddressEntity", b =>
                 {
-                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "BlockedUser")
-                        .WithMany()
-                        .HasForeignKey("BlockedUserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
-                        .WithMany()
+                        .WithMany("Addresses")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.Navigation("BlockedUser");
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("User");
                 });
@@ -1635,19 +2157,26 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.CategoryEntity", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.BookmarkEntity", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
                         .WithMany("Bookmarks")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Category");
+
+                    b.Navigation("Parent");
 
                     b.Navigation("Product");
 
@@ -1659,7 +2188,48 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.CategoryEntity", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.OwnsOne("Utilities_aspnet.Entities.CategoryJsonDetail", "CategoryJsonDetail", b1 =>
+                        {
+                            b1.Property<Guid>("CategoryEntityId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Color")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime?>("Date1")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<DateTime?>("Date2")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<double?>("Latitude")
+                                .HasColumnType("float");
+
+                            b1.Property<string>("Link")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<double?>("Longitude")
+                                .HasColumnType("float");
+
+                            b1.Property<string>("Subtitle")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<double?>("Value")
+                                .HasColumnType("float");
+
+                            b1.HasKey("CategoryEntityId");
+
+                            b1.ToTable("Categories");
+
+                            b1.ToJson("CategoryJsonDetail");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CategoryEntityId");
+                        });
+
+                    b.Navigation("CategoryJsonDetail");
 
                     b.Navigation("Parent");
                 });
@@ -1669,16 +2239,23 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "FromUser")
                         .WithMany()
                         .HasForeignKey("FromUserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("Utilities_aspnet.Entities.ChatEntity", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "ToUser")
                         .WithMany()
                         .HasForeignKey("ToUserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("FromUser");
+
+                    b.Navigation("Parent");
 
                     b.Navigation("ToUser");
                 });
@@ -1688,17 +2265,17 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.CommentEntity", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
                         .WithMany("Comments")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Parent");
 
@@ -1707,21 +2284,14 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.FollowEntity", b =>
+            modelBuilder.Entity("Utilities_aspnet.Entities.CommentReacts", b =>
                 {
-                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "FollowerUser")
-                        .WithMany()
-                        .HasForeignKey("FollowerUserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                    b.HasOne("Utilities_aspnet.Entities.CommentEntity", "Comment")
+                        .WithMany("CommentReacts")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "FollowsUser")
-                        .WithMany()
-                        .HasForeignKey("FollowsUserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.Navigation("FollowerUser");
-
-                    b.Navigation("FollowsUser");
+                    b.Navigation("Comment");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.FormEntity", b =>
@@ -1729,27 +2299,27 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.CategoryEntity", null)
                         .WithMany("FormFields")
                         .HasForeignKey("CategoryEntityId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.FormFieldEntity", "FormField")
                         .WithMany("Forms")
                         .HasForeignKey("FormFieldId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.OrderDetailEntity", "OrderDetail")
                         .WithMany("Forms")
                         .HasForeignKey("OrderDetailId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
                         .WithMany("Forms")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany("FormBuilders")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("FormField");
 
@@ -1765,9 +2335,54 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.CategoryEntity", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.FormFieldEntity", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Category");
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.GroupChatMessageEntity", b =>
+                {
+                    b.HasOne("Utilities_aspnet.Entities.GroupChatMessageEntity", "ForwardedMessage")
+                        .WithMany()
+                        .HasForeignKey("ForwardedMessageId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.GroupChatEntity", "GroupChat")
+                        .WithMany("GroupChatMessage")
+                        .HasForeignKey("GroupChatId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.GroupChatMessageEntity", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.SeenUsers", "SeenUsers")
+                        .WithMany()
+                        .HasForeignKey("SeenUsersId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("ForwardedMessage");
+
+                    b.Navigation("GroupChat");
+
+                    b.Navigation("Parent");
+
+                    b.Navigation("SeenUsers");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.LikeCommentEntity", b =>
@@ -1775,12 +2390,12 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.CommentEntity", "Comment")
                         .WithMany("LikeComments")
                         .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany("LikeComments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Comment");
 
@@ -1789,40 +2404,57 @@ namespace SinaMN75Api.Migrations
 
             modelBuilder.Entity("Utilities_aspnet.Entities.MediaEntity", b =>
                 {
+                    b.HasOne("Utilities_aspnet.Entities.BookmarkEntity", "Bookmark")
+                        .WithMany("Media")
+                        .HasForeignKey("BookmarkId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("Utilities_aspnet.Entities.CategoryEntity", "Category")
                         .WithMany("Media")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.ChatEntity", "Chat")
                         .WithMany("Media")
                         .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.CommentEntity", "Comment")
                         .WithMany("Media")
                         .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.ContentEntity", "Content")
                         .WithMany("Media")
                         .HasForeignKey("ContentId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.GroupChatEntity", "GroupChat")
+                        .WithMany("Media")
+                        .HasForeignKey("GroupChatId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.GroupChatMessageEntity", "GroupChatMessage")
+                        .WithMany("Media")
+                        .HasForeignKey("GroupChatMessageId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.NotificationEntity", "Notification")
                         .WithMany("Media")
                         .HasForeignKey("NotificationId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
                         .WithMany("Media")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany("Media")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Bookmark");
 
                     b.Navigation("Category");
 
@@ -1831,6 +2463,10 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("Comment");
 
                     b.Navigation("Content");
+
+                    b.Navigation("GroupChat");
+
+                    b.Navigation("GroupChatMessage");
 
                     b.Navigation("Notification");
 
@@ -1844,29 +2480,43 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "CreatorUser")
                         .WithMany()
                         .HasForeignKey("CreatorUserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("CreatorUser");
+
+                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.OrderDetailEntity", b =>
                 {
+                    b.HasOne("Utilities_aspnet.Entities.CategoryEntity", "Category")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("Utilities_aspnet.Entities.OrderEntity", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Category");
 
                     b.Navigation("Order");
 
@@ -1875,10 +2525,24 @@ namespace SinaMN75Api.Migrations
 
             modelBuilder.Entity("Utilities_aspnet.Entities.OrderEntity", b =>
                 {
+                    b.HasOne("Utilities_aspnet.Entities.AddressEntity", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "ProductOwner")
+                        .WithMany()
+                        .HasForeignKey("ProductOwnerId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Address");
+
+                    b.Navigation("ProductOwner");
 
                     b.Navigation("User");
                 });
@@ -1888,7 +2552,7 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -1896,66 +2560,144 @@ namespace SinaMN75Api.Migrations
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ProductEntity", b =>
                 {
+                    b.HasOne("Utilities_aspnet.Entities.GroupChatMessageEntity", null)
+                        .WithMany("Products")
+                        .HasForeignKey("GroupChatMessageEntityId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany("Products")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.ProductInsight", b =>
+                {
+                    b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
+                        .WithMany("ProductInsights")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.ReactionEntity", "Reaction")
+                        .WithMany()
+                        .HasForeignKey("ReactionId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Reaction");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.PromotionEntity", b =>
+                {
+                    b.HasOne("Utilities_aspnet.Entities.GroupChatEntity", "GroupChat")
+                        .WithMany()
+                        .HasForeignKey("GroupChatId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("GroupChat");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.ReactionEntity", b =>
+                {
+                    b.HasOne("Utilities_aspnet.Entities.ChatEntity", "Chats")
+                        .WithMany("ChatReacts")
+                        .HasForeignKey("ChatsId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Chats");
+
+                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ReportEntity", b =>
                 {
+                    b.HasOne("Utilities_aspnet.Entities.ChatEntity", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.CommentEntity", "Comment")
+                        .WithMany("Reports")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "CreatorUser")
                         .WithMany()
                         .HasForeignKey("CreatorUserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.GroupChatEntity", "GroupChat")
+                        .WithMany()
+                        .HasForeignKey("GroupChatId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Utilities_aspnet.Entities.GroupChatMessageEntity", "GroupChatMessage")
+                        .WithMany()
+                        .HasForeignKey("GroupChatMessageId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
                         .WithMany("Reports")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("Comment");
 
                     b.Navigation("CreatorUser");
 
-                    b.Navigation("Product");
+                    b.Navigation("GroupChat");
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Utilities_aspnet.Entities.TeamEntity", b =>
-                {
-                    b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
-                        .WithMany("Teams")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
-                        .WithMany("Teams")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Utilities_aspnet.Entities.TopProductEntity", b =>
-                {
-                    b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                    b.Navigation("GroupChatMessage");
 
                     b.Navigation("Product");
 
@@ -1964,53 +2706,60 @@ namespace SinaMN75Api.Migrations
 
             modelBuilder.Entity("Utilities_aspnet.Entities.TransactionEntity", b =>
                 {
-                    b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
+                    b.HasOne("Utilities_aspnet.Entities.OrderEntity", "Order")
                         .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany("Transactions")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("Product");
+                    b.Navigation("Order");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.VoteEntity", b =>
+            modelBuilder.Entity("Utilities_aspnet.Entities.VisitProducts", b =>
                 {
                     b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
-                        .WithMany("Votes")
+                        .WithMany("VisitProducts")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.HasOne("Utilities_aspnet.Entities.VoteFieldEntity", "VoteField")
-                        .WithMany("Votes")
-                        .HasForeignKey("VoteFieldId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Product");
 
                     b.Navigation("User");
-
-                    b.Navigation("VoteField");
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.VoteFieldEntity", b =>
+            modelBuilder.Entity("Utilities_aspnet.Entities.WithdrawEntity", b =>
                 {
-                    b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
-                        .WithMany("VoteFields")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "AdminUserEntity")
+                        .WithMany()
+                        .HasForeignKey("AdminUserEntityId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("Product");
+                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "ApplicantUserEntity")
+                        .WithMany()
+                        .HasForeignKey("ApplicantUserEntityId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("AdminUserEntity");
+
+                    b.Navigation("ApplicantUserEntity");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.BookmarkEntity", b =>
+                {
+                    b.Navigation("Children");
+
+                    b.Navigation("Media");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.CategoryEntity", b =>
@@ -2020,10 +2769,14 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("FormFields");
 
                     b.Navigation("Media");
+
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ChatEntity", b =>
                 {
+                    b.Navigation("ChatReacts");
+
                     b.Navigation("Media");
                 });
 
@@ -2031,9 +2784,13 @@ namespace SinaMN75Api.Migrations
                 {
                     b.Navigation("Children");
 
+                    b.Navigation("CommentReacts");
+
                     b.Navigation("LikeComments");
 
                     b.Navigation("Media");
+
+                    b.Navigation("Reports");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ContentEntity", b =>
@@ -2043,7 +2800,23 @@ namespace SinaMN75Api.Migrations
 
             modelBuilder.Entity("Utilities_aspnet.Entities.FormFieldEntity", b =>
                 {
+                    b.Navigation("Children");
+
                     b.Navigation("Forms");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.GroupChatEntity", b =>
+                {
+                    b.Navigation("GroupChatMessage");
+
+                    b.Navigation("Media");
+                });
+
+            modelBuilder.Entity("Utilities_aspnet.Entities.GroupChatMessageEntity", b =>
+                {
+                    b.Navigation("Media");
+
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.NotificationEntity", b =>
@@ -2073,17 +2846,17 @@ namespace SinaMN75Api.Migrations
 
                     b.Navigation("OrderDetails");
 
+                    b.Navigation("ProductInsights");
+
                     b.Navigation("Reports");
 
-                    b.Navigation("Teams");
-
-                    b.Navigation("VoteFields");
-
-                    b.Navigation("Votes");
+                    b.Navigation("VisitProducts");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.UserEntity", b =>
                 {
+                    b.Navigation("Addresses");
+
                     b.Navigation("FormBuilders");
 
                     b.Navigation("LikeComments");
@@ -2092,14 +2865,7 @@ namespace SinaMN75Api.Migrations
 
                     b.Navigation("Products");
 
-                    b.Navigation("Teams");
-
                     b.Navigation("Transactions");
-                });
-
-            modelBuilder.Entity("Utilities_aspnet.Entities.VoteFieldEntity", b =>
-                {
-                    b.Navigation("Votes");
                 });
 #pragma warning restore 612, 618
         }
