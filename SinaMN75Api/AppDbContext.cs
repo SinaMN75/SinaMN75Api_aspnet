@@ -26,14 +26,21 @@ public class AppDbContext : IdentityDbContext<UserEntity> {
 	public DbSet<ProductInsight> ProductInsights { get; set; } = null!;
 	public DbSet<VisitProducts> VisitProducts { get; set; } = null!;
 	public DbSet<ReactionEntity> ReactionEntity { get; set; } = null!;
-	public DbSet<CommentReacts> CommentReacts { get; set; } = null!;
 	public DbSet<SeenUsers> SeenUsers { get; set; } = null!;
 	public DbSet<WithdrawEntity> Withdraw { get; set; } = null!;
 	public DbSet<PromotionEntity> Promotions { get; set; } = null!;
 
-	protected override void OnModelCreating(ModelBuilder b) {
-		base.OnModelCreating(b);
-		foreach (IMutableForeignKey fk in b.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) fk.DeleteBehavior = DeleteBehavior.NoAction;
-		b.Entity<CategoryEntity>().OwnsOne(e => e.CategoryJsonDetail, builder => { builder.ToJson(); });
+	protected override void OnModelCreating(ModelBuilder builder) {
+		base.OnModelCreating(builder);
+		foreach (IMutableForeignKey fk in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) fk.DeleteBehavior = DeleteBehavior.NoAction;
+		builder.Entity<CategoryEntity>().OwnsOne(e => e.CategoryJsonDetail, b => b.ToJson());
+		builder.Entity<UserEntity>().OwnsOne(e => e.UserJsonDetail, b => b.ToJson());
+		builder.Entity<GroupChatEntity>().OwnsOne(e => e.GroupChatJsonDetail, b => b.ToJson());
+		builder.Entity<MediaEntity>().OwnsOne(e => e.MediaJsonDetail, b => b.ToJson());
+		builder.Entity<ProductEntity>().OwnsOne(e => e.ProductJsonDetail, b => b.ToJson());
+		builder.Entity<CommentEntity>().OwnsOne(e => e.CommentJsonDetail, b => {
+			b.ToJson();
+			b.OwnsMany(_ => _.Reacts);
+		});
 	}
 }
