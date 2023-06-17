@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Utilities_aspnet.Entities;
 
 namespace SinaMN75Api;
@@ -32,8 +30,6 @@ public class AppDbContext : IdentityDbContext<UserEntity> {
 	public DbSet<WithdrawEntity> Withdraw { get; set; } = null!;
 	public DbSet<PromotionEntity> Promotions { get; set; } = null!;
 
-	protected override void ConfigureConventions(ModelConfigurationBuilder b) => b.Conventions.Add(_ => new MaxStringLengthConvention());
-
 	protected override void OnModelCreating(ModelBuilder builder) {
 		base.OnModelCreating(builder);
 		foreach (IMutableForeignKey fk in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) fk.DeleteBehavior = DeleteBehavior.NoAction;
@@ -41,17 +37,13 @@ public class AppDbContext : IdentityDbContext<UserEntity> {
 		builder.Entity<UserEntity>().OwnsOne(e => e.JsonDetail, b => b.ToJson());
 		builder.Entity<GroupChatEntity>().OwnsOne(e => e.JsonDetail, b => b.ToJson());
 		builder.Entity<MediaEntity>().OwnsOne(e => e.JsonDetail, b => b.ToJson());
-		builder.Entity<ProductEntity>().OwnsOne(e => e.JsonDetail, b => b.ToJson());
+		builder.Entity<ProductEntity>().OwnsOne(e => e.JsonDetail, b => {
+			b.ToJson();
+			b.OwnsMany(_ => _.KeyValues);
+		});
 		builder.Entity<CommentEntity>().OwnsOne(e => e.JsonDetail, b => {
 			b.ToJson();
 			b.OwnsMany(_ => _.Reacts);
 		});
-	}
-}
-
-public class MaxStringLengthConvention : IModelFinalizingConvention {
-	public void ProcessModelFinalizing(IConventionModelBuilder mb, IConventionContext<IConventionModelBuilder> _) {
-		foreach (IConventionProperty p in mb.Metadata.GetEntityTypes()
-			         .SelectMany(e => e.GetDeclaredProperties().Where(p => p.ClrType == typeof(string)))) p.Builder.HasMaxLength(512);
 	}
 }
