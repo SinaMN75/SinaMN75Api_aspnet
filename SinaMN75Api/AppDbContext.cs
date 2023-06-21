@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Utilities_aspnet.Entities;
+using Utilities_aspnet.Utilities;
 
 namespace SinaMN75Api;
 
@@ -45,5 +46,7 @@ public class AppDbContext : IdentityDbContext<UserEntity> {
 			b.ToJson();
 			b.OwnsMany(_ => _.Reacts);
 		});
+		
+		builder.SeedContent();
 	}
 }

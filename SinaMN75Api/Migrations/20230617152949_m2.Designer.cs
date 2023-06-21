@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SinaMN75Api;
 
@@ -11,9 +12,11 @@ using SinaMN75Api;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230617152949_m2")]
+    partial class m2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -465,36 +468,36 @@ namespace SinaMN75Api.Migrations
                         new
                         {
                             Id = new Guid("61b5a1b3-e6d3-49a7-8bf0-e9d5ba585c18"),
-                            Description = "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.",
-                            SubTitle = "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)",
-                            Title = "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)",
+                            Description = "Description",
+                            SubTitle = "SubTitle",
+                            Title = "Title",
                             Type = "terms",
                             UseCase = "terms"
                         },
                         new
                         {
                             Id = new Guid("61f54f5d-5076-4449-9e06-1749ae675dea"),
-                            Description = "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.",
-                            SubTitle = "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)",
-                            Title = "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)",
+                            Description = "Description",
+                            SubTitle = "SubTitle",
+                            Title = "Title",
                             Type = "aboutUs",
                             UseCase = "aboutUs"
                         },
                         new
                         {
                             Id = new Guid("af233cad-d72c-4823-a7eb-b9c942aa9609"),
-                            Description = "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.",
-                            SubTitle = "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)",
-                            Title = "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)",
+                            Description = "Description",
+                            SubTitle = "SubTitle",
+                            Title = "Title",
                             Type = "homeBanner1",
                             UseCase = "homeBanner1"
                         },
                         new
                         {
                             Id = new Guid("d1827b50-ec7c-40bc-9f39-a87e96a45264"),
-                            Description = "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.",
-                            SubTitle = "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)",
-                            Title = "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)",
+                            Description = "Description",
+                            SubTitle = "SubTitle",
+                            Title = "Title",
                             Type = "homeBanner2",
                             UseCase = "homeBanner2"
                         });
@@ -873,9 +876,6 @@ namespace SinaMN75Api.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("Vote")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -1462,9 +1462,6 @@ namespace SinaMN75Api.Migrations
 
                     b.Property<bool?>("IsPrivate")
                         .HasColumnType("bit");
-
-                    b.Property<string>("JobStatus")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
@@ -2298,12 +2295,6 @@ namespace SinaMN75Api.Migrations
                                 .HasColumnType("datetime2");
 
                             b1.Property<string>("Tags")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Type1")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Type2")
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("Unit")
