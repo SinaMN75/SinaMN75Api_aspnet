@@ -41,6 +41,7 @@ public class AppDbContext : IdentityDbContext<UserEntity> {
 		builder.Entity<ProductEntity>().OwnsOne(e => e.JsonDetail, b => {
 			b.ToJson();
 			b.OwnsMany(_ => _.KeyValues);
+			b.OwnsMany(_ => _.Attributes);
 		});
 		builder.Entity<CommentEntity>().OwnsOne(e => e.JsonDetail, b => {
 			b.ToJson();
