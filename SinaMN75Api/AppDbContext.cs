@@ -30,6 +30,7 @@ public class AppDbContext : IdentityDbContext<UserEntity> {
 	public DbSet<SeenUsers> SeenUsers { get; set; } = null!;
 	public DbSet<WithdrawEntity> Withdraw { get; set; } = null!;
 	public DbSet<PromotionEntity> Promotions { get; set; } = null!;
+	public DbSet<ProductAttributeEntity> ProductAttribute { get; set; } = null!;
 
 	protected override void OnModelCreating(ModelBuilder builder) {
 		base.OnModelCreating(builder);

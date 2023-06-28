@@ -12,7 +12,7 @@ using SinaMN75Api;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230628065213_m5")]
+    [Migration("20230628072406_m5")]
     partial class m5
     {
         /// <inheritdoc />
