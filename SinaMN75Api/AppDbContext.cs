@@ -33,21 +33,7 @@ public class AppDbContext : IdentityDbContext<UserEntity> {
 
 	protected override void OnModelCreating(ModelBuilder builder) {
 		base.OnModelCreating(builder);
-		foreach (IMutableForeignKey fk in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) fk.DeleteBehavior = DeleteBehavior.NoAction;
-		builder.Entity<CategoryEntity>().OwnsOne(e => e.JsonDetail, b => b.ToJson());
-		builder.Entity<UserEntity>().OwnsOne(e => e.JsonDetail, b => b.ToJson());
-		builder.Entity<GroupChatEntity>().OwnsOne(e => e.JsonDetail, b => b.ToJson());
-		builder.Entity<MediaEntity>().OwnsOne(e => e.JsonDetail, b => b.ToJson());
-		builder.Entity<ProductEntity>().OwnsOne(e => e.JsonDetail, b => {
-			b.ToJson();
-			b.OwnsMany(_ => _.KeyValues);
-			b.OwnsMany(_ => _.Attributes);
-		});
-		builder.Entity<CommentEntity>().OwnsOne(e => e.JsonDetail, b => {
-			b.ToJson();
-			b.OwnsMany(_ => _.Reacts);
-		});
-		
+		builder.SetupModelBuilder();
 		builder.SeedContent();
 	}
 }
