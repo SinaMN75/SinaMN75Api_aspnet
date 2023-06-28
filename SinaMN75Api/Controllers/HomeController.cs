@@ -15,7 +15,7 @@ public class HomeController : Controller {
 
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	[HttpGet("IncreaseWalletBalance/{amount:double}")]
-	public async Task<GenericResponse<string?>> IncreaseWalletBalance(double amount) => await _paymentRepository.IncreaseWalletBalance(amount);
+	public async Task<GenericResponse<string?>> IncreaseWalletBalance(int amount) => await _paymentRepository.IncreaseWalletBalance(amount);
 
 	[ApiExplorerSettings(IgnoreApi = true)]
 	[HttpGet("WalletCallBack/{userId}/{amount:int}")]
