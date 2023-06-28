@@ -12,8 +12,8 @@ using SinaMN75Api;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230628072406_m5")]
-    partial class m5
+    [Migration("20230628082637_m۵")]
+    partial class m۵
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
