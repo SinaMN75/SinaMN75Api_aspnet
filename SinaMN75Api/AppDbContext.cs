@@ -17,7 +17,6 @@ public class AppDbContext : IdentityDbContext<UserEntity> {
 	public DbSet<BookmarkEntity> Bookmarks { get; set; } = null!;
 	public DbSet<MediaEntity> Media { get; set; } = null!;
 	public DbSet<ContentEntity> Contents { get; set; } = null!;
-	public DbSet<OtpEntity> Otps { get; set; } = null!;
 	public DbSet<CategoryEntity> Categories { get; set; } = null!;
 	public DbSet<FormFieldEntity> FormFields { get; set; } = null!;
 	public DbSet<ChatEntity> Chats { get; set; } = null!;
