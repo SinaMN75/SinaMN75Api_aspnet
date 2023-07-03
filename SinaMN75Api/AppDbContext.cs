@@ -29,6 +29,8 @@ public class AppDbContext : IdentityDbContext<UserEntity> {
 	public DbSet<SeenUsers> SeenUsers { get; set; } = null!;
 	public DbSet<WithdrawEntity> Withdraw { get; set; } = null!;
 	public DbSet<PromotionEntity> Promotions { get; set; } = null!;
+	public DbSet<GroupChatEntity> GroupChats { get; set; } = null!;
+	public DbSet<GroupChatMessageEntity> GroupChatMessages { get; set; } = null!;
 
 	protected override void OnModelCreating(ModelBuilder builder) {
 		base.OnModelCreating(builder);
