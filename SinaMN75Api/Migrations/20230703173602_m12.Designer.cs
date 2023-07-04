@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SinaMN75Api;
 
@@ -11,9 +12,11 @@ using SinaMN75Api;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230703173602_m12")]
+    partial class m12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,21 +68,6 @@ namespace SinaMN75Api.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("CategoryEntityUserEntity");
-                });
-
-            modelBuilder.Entity("GroupChatEntityUserEntity", b =>
-                {
-                    b.Property<Guid>("GroupChatsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("GroupChatsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("GroupChatEntityUserEntity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1481,6 +1469,9 @@ namespace SinaMN75Api.Migrations
                     b.Property<int?>("Gender")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("GroupChatEntityId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Headline")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -1488,7 +1479,7 @@ namespace SinaMN75Api.Migrations
                     b.Property<bool?>("IsOnline")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsPrivate")
+                    b.Property<bool?>("IsPrivate")
                         .HasColumnType("bit");
 
                     b.Property<string>("JobStatus")
@@ -1568,6 +1559,8 @@ namespace SinaMN75Api.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GroupChatEntityId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -1680,21 +1673,6 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.CategoryEntity", null)
                         .WithMany()
                         .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Utilities_aspnet.Entities.UserEntity", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("GroupChatEntityUserEntity", b =>
-                {
-                    b.HasOne("Utilities_aspnet.Entities.GroupChatEntity", null)
-                        .WithMany()
-                        .HasForeignKey("GroupChatsId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -2544,6 +2522,11 @@ namespace SinaMN75Api.Migrations
 
             modelBuilder.Entity("Utilities_aspnet.Entities.UserEntity", b =>
                 {
+                    b.HasOne("Utilities_aspnet.Entities.GroupChatEntity", null)
+                        .WithMany("Users")
+                        .HasForeignKey("GroupChatEntityId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.OwnsOne("Utilities_aspnet.Entities.UserJsonDetail", "JsonDetail", b1 =>
                         {
                             b1.Property<string>("UserEntityId")
@@ -2684,6 +2667,8 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("Media");
 
                     b.Navigation("Products");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.GroupChatMessageEntity", b =>
