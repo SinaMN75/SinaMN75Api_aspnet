@@ -5,7 +5,7 @@
 namespace SinaMN75Api.Migrations
 {
     /// <inheritdoc />
-    public partial class m13 : Migration
+    public partial class m14 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
