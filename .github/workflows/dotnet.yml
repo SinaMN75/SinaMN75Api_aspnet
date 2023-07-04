@@ -28,7 +28,7 @@ jobs:
       - name: Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          local-dir: SinaMN75Api/bin/Release/net7.0/publish/
+          local-dir: SinaMN75Api/bin/Release/net8.0/publish/
           server: 45.139.11.86
           username: SinaMN75Api_aspnet
           password: BetterSoft1234!@#$
