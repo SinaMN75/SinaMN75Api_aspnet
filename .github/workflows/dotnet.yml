@@ -15,21 +15,21 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 8.0.100-preview.5.23303.2
-      - name: Init Utilities
-        run: git submodule update --init
-      - name: Get Utilities
-        run: git submodule update --remote -f
-      - name: Restore dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build --no-restore
-      - name: Publish
-        run: dotnet publish -c Release
-      - name: Deploy
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
-        with:
-          local-dir: SinaMN75Api/bin/Release/net8.0/publish/
-          server: 45.139.11.86
-          username: SinaMN75Api_aspnet
-          password: BetterSoft1234!@#$
-  
+#      - name: Init Utilities
+#        run: git submodule update --init
+#      - name: Get Utilities
+#        run: git submodule update --remote -f
+#      - name: Restore dependencies
+#        run: dotnet restore
+#      - name: Build
+#        run: dotnet build --no-restore
+#      - name: Publish
+#        run: dotnet publish -c Release
+#      - name: Deploy
+#        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+#        with:
+#          local-dir: SinaMN75Api/bin/Release/net8.0/publish/
+#          server: 45.139.11.86
+#          username: SinaMN75Api_aspnet
+#          password: BetterSoft1234!@#$
+#  

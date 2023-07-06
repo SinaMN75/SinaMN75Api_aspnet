@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using Utilities_aspnet.Entities;
 using Utilities_aspnet.Utilities;
 
 namespace SinaMN75Api;
 
-public class AppDbContext : IdentityDbContext<UserEntity> {
-	public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+public class AppDbContext : DbContext {
+	public AppDbContext(DbContextOptions options) : base(options) { }
 
+	public DbSet<UserEntity> Users { get; set; } = null!;
 	public DbSet<ProductEntity> Products { get; set; } = null!;
 	public DbSet<TransactionEntity> Transactions { get; set; } = null!;
 	public DbSet<ReportEntity> Reports { get; set; } = null!;
