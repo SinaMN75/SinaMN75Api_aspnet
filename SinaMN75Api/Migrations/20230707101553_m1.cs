@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SinaMN75Api.Migrations
 {
     /// <inheritdoc />
@@ -12,37 +14,20 @@ namespace SinaMN75Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AspNetRoles",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TitleTr1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TitleTr2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<double>(type: "float", nullable: true),
-                    Stock = table.Column<int>(type: "int", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    TitleTr1 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    TitleTr2 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    UseCase = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Order = table.Column<int>(type: "int", nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -60,14 +45,14 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    SubTitle = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    UseCase = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -79,15 +64,14 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     DiscountPercent = table.Column<int>(type: "int", nullable: true),
                     NumberUses = table.Column<int>(type: "int", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -99,12 +83,11 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatorUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    CreatorUserId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Type = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -118,11 +101,10 @@ namespace SinaMN75Api.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FkGroupChat = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    FkUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FkUserId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     FkGroupChatMessage = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -130,23 +112,49 @@ namespace SinaMN75Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
+                name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Headline = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Bio = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
+                    AppUserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    AppPhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    AppEmail = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    AccessLevel = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Region = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Badge = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    JobStatus = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    MutedChats = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Gender = table.Column<int>(type: "int", nullable: true),
+                    Wallet = table.Column<int>(type: "int", nullable: true),
+                    Point = table.Column<double>(type: "float", nullable: true),
+                    Birthdate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsOnline = table.Column<bool>(type: "bit", nullable: true),
+                    Suspend = table.Column<bool>(type: "bit", nullable: true),
+                    IsPrivate = table.Column<bool>(type: "bit", nullable: false),
+                    ExpireUpgradeAccount = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AgeCategory = table.Column<int>(type: "int", nullable: true),
+                    VisitedProducts = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BookmarkedProducts = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FollowingUsers = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FollowedUsers = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BlockedUsers = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id");
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,15 +162,13 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Label = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Label = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsRequired = table.Column<bool>(type: "bit", nullable: true),
                     OptionList = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     Type = table.Column<int>(type: "int", nullable: true),
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -171,69 +177,6 @@ namespace SinaMN75Api.Migrations
                         name: "FK_FormFields_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Headline = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Bio = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    AppUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AppPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AppEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AccessLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Region = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Badge = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MutedChats = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Gender = table.Column<int>(type: "int", nullable: true),
-                    Wallet = table.Column<double>(type: "float", nullable: true),
-                    Point = table.Column<double>(type: "float", nullable: true),
-                    Birthdate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsOnline = table.Column<bool>(type: "bit", nullable: true),
-                    Suspend = table.Column<bool>(type: "bit", nullable: true),
-                    IsPrivate = table.Column<bool>(type: "bit", nullable: true),
-                    ExpireUpgradeAccount = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AgeCategory = table.Column<int>(type: "int", nullable: true),
-                    VisitedProducts = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BookmarkedProducts = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FollowingUsers = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FollowedUsers = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BlockedUsers = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false),
-                    GroupChatEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_GroupChat_GroupChatEntityId",
-                        column: x => x.GroupChatEntityId,
-                        principalTable: "GroupChat",
                         principalColumn: "Id");
                 });
 
@@ -251,12 +194,14 @@ namespace SinaMN75Api.Migrations
                         name: "FK_CategoryEntityGroupChatEntity_Categories_CategoriesId",
                         column: x => x.CategoriesId,
                         principalTable: "Categories",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CategoryEntityGroupChatEntity_GroupChat_GroupChatsId",
                         column: x => x.GroupChatsId,
                         principalTable: "GroupChat",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -264,105 +209,24 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ReceiverFullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ReceiverPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Pelak = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReceiverFullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    ReceiverPhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Pelak = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    Unit = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    PostalCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Address", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Address_AspNetUsers_UserId",
+                        name: "FK_Address_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserLogins",
-                columns: table => new
-                {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserRoles",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -377,15 +241,17 @@ namespace SinaMN75Api.Migrations
                 {
                     table.PrimaryKey("PK_CategoryEntityUserEntity", x => new { x.CategoriesId, x.UsersId });
                     table.ForeignKey(
-                        name: "FK_CategoryEntityUserEntity_AspNetUsers_UsersId",
-                        column: x => x.UsersId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_CategoryEntityUserEntity_Categories_CategoriesId",
                         column: x => x.CategoriesId,
                         principalTable: "Categories",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CategoryEntityUserEntity_Users_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -399,27 +265,52 @@ namespace SinaMN75Api.Migrations
                     ToUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Chats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Chats_AspNetUsers_FromUserId",
-                        column: x => x.FromUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Chats_AspNetUsers_ToUserId",
-                        column: x => x.ToUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Chats_Chats_ParentId",
                         column: x => x.ParentId,
                         principalTable: "Chats",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Chats_Users_FromUserId",
+                        column: x => x.FromUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Chats_Users_ToUserId",
+                        column: x => x.ToUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroupChatEntityUserEntity",
+                columns: table => new
+                {
+                    GroupChatsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupChatEntityUserEntity", x => new { x.GroupChatsId, x.UsersId });
+                    table.ForeignKey(
+                        name: "FK_GroupChatEntityUserEntity_GroupChat_GroupChatsId",
+                        column: x => x.GroupChatsId,
+                        principalTable: "GroupChat",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GroupChatEntityUserEntity_Users_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -428,25 +319,19 @@ namespace SinaMN75Api.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Message = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    UseCase = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     GroupChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ForwardedMessageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     SeenUsersId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GroupChatMessage", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GroupChatMessage_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_GroupChatMessage_GroupChatMessage_ForwardedMessageId",
                         column: x => x.ForwardedMessageId,
@@ -467,26 +352,10 @@ namespace SinaMN75Api.Migrations
                         column: x => x.SeenUsersId,
                         principalTable: "SeenUsers",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Otps",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OtpCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Otps", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Otps_AspNetUsers_UserId",
+                        name: "FK_GroupChatMessage_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -495,21 +364,20 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ShebaNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Amount = table.Column<double>(type: "float", nullable: true),
+                    ShebaNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Amount = table.Column<int>(type: "int", nullable: true),
                     WithdrawState = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Withdraw", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Withdraw_AspNetUsers_UserId",
+                        name: "FK_Withdraw_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -518,25 +386,25 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DiscountCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductUseCase = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PayNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderType = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    DiscountCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    PayNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Status = table.Column<int>(type: "int", nullable: true),
-                    TotalPrice = table.Column<double>(type: "float", nullable: true),
-                    DiscountPrice = table.Column<double>(type: "float", nullable: true),
+                    TotalPrice = table.Column<int>(type: "int", nullable: true),
+                    DiscountPrice = table.Column<int>(type: "int", nullable: true),
                     DiscountPercent = table.Column<int>(type: "int", nullable: true),
-                    SendPrice = table.Column<double>(type: "float", nullable: true),
+                    SendPrice = table.Column<int>(type: "int", nullable: true),
                     SendType = table.Column<int>(type: "int", nullable: true),
                     PayType = table.Column<int>(type: "int", nullable: true),
                     PayDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ReceivedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeliverDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProductOwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -547,14 +415,14 @@ namespace SinaMN75Api.Migrations
                         principalTable: "Address",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Order_AspNetUsers_ProductOwnerId",
+                        name: "FK_Order_Users_ProductOwnerId",
                         column: x => x.ProductOwnerId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Users",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Order_AspNetUsers_UserId",
+                        name: "FK_Order_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -563,45 +431,39 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Subtitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Subtitle = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UseCase = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Boosted = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Stock = table.Column<double>(type: "float", nullable: true),
-                    VoteCount = table.Column<double>(type: "float", nullable: true),
+                    Stock = table.Column<int>(type: "int", nullable: true),
+                    VoteCount = table.Column<int>(type: "int", nullable: true),
                     DiscountPercent = table.Column<int>(type: "int", nullable: true),
                     CommentsCount = table.Column<int>(type: "int", nullable: true),
-                    Enabled = table.Column<bool>(type: "bit", nullable: true),
-                    DiscountPrice = table.Column<double>(type: "float", nullable: true),
-                    Price = table.Column<double>(type: "float", nullable: true),
+                    DiscountPrice = table.Column<int>(type: "int", nullable: true),
+                    Price = table.Column<int>(type: "int", nullable: true),
                     Currency = table.Column<int>(type: "int", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: true),
                     AgeCategory = table.Column<int>(type: "int", nullable: true),
                     ProductState = table.Column<int>(type: "int", nullable: true),
                     ExpireDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     SeenUsers = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Teams = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Teams = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ChatEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     GroupChatEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     GroupChatMessageEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Products_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Products_Chats_ChatEntityId",
                         column: x => x.ChatEntityId,
@@ -622,6 +484,11 @@ namespace SinaMN75Api.Migrations
                         column: x => x.ParentId,
                         principalTable: "Products",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Products_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -629,33 +496,32 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Amount = table.Column<double>(type: "float", nullable: true),
-                    Descriptions = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Authority = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GatewayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PaymentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ShebaNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Amount = table.Column<int>(type: "int", nullable: true),
+                    Descriptions = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Authority = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    GatewayName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    PaymentId = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    ShebaNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     RefId = table.Column<long>(type: "bigint", nullable: true),
                     StatusId = table.Column<int>(type: "int", nullable: true),
                     TransactionType = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Transactions_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Transactions_Order_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Order",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Transactions_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -664,22 +530,16 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FolderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FolderName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bookmarks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Bookmarks_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Bookmarks_Bookmarks_ParentId",
                         column: x => x.ParentId,
@@ -689,6 +549,11 @@ namespace SinaMN75Api.Migrations
                         name: "FK_Bookmarks_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Bookmarks_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -706,12 +571,14 @@ namespace SinaMN75Api.Migrations
                         name: "FK_CategoryEntityProductEntity_Categories_CategoriesId",
                         column: x => x.CategoriesId,
                         principalTable: "Categories",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CategoryEntityProductEntity_Products_ProductsId",
                         column: x => x.ProductsId,
                         principalTable: "Products",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -727,17 +594,11 @@ namespace SinaMN75Api.Migrations
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Comment_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Comment_Comment_ParentId",
                         column: x => x.ParentId,
@@ -748,6 +609,11 @@ namespace SinaMN75Api.Migrations
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Comment_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -755,24 +621,17 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     FormFieldId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CategoryEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Forms", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Forms_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Forms_Categories_CategoryEntityId",
                         column: x => x.CategoryEntityId,
@@ -788,6 +647,11 @@ namespace SinaMN75Api.Migrations
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Forms_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -795,36 +659,36 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Link = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Link = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    UseCase = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     SeenStatus = table.Column<int>(type: "int", nullable: true),
                     Visited = table.Column<bool>(type: "bit", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatorUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Notifications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Notifications_AspNetUsers_CreatorUserId",
-                        column: x => x.CreatorUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Notifications_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Notifications_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Notifications_Users_CreatorUserId",
+                        column: x => x.CreatorUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Notifications_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -833,24 +697,18 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: true),
-                    UnitPrice = table.Column<double>(type: "float", nullable: true),
+                    UnitPrice = table.Column<int>(type: "int", nullable: true),
                     Count = table.Column<int>(type: "int", nullable: true),
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Vote = table.Column<int>(type: "int", nullable: true),
+                    FinalPrice = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderDetail", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OrderDetail_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_OrderDetail_Order_OrderId",
                         column: x => x.OrderId,
@@ -869,25 +727,26 @@ namespace SinaMN75Api.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DisplayType = table.Column<int>(type: "int", nullable: false),
-                    Skills = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AgeCategories = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    States = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Skills = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Gender = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    AgeCategories = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    States = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Users = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Users = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     GroupChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UserPromotedId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Promotion", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Promotion_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_Promotion_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Promotion_GroupChat_GroupChatId",
@@ -898,6 +757,16 @@ namespace SinaMN75Api.Migrations
                         name: "FK_Promotion_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Promotion_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Promotion_Users_UserPromotedId",
+                        column: x => x.UserPromotedId,
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -911,17 +780,11 @@ namespace SinaMN75Api.Migrations
                     ChatsId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reaction", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Reaction_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Reaction_Chats_ChatsId",
                         column: x => x.ChatsId,
@@ -931,6 +794,11 @@ namespace SinaMN75Api.Migrations
                         name: "FK_Reaction_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Reaction_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -942,21 +810,20 @@ namespace SinaMN75Api.Migrations
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_VisitProducts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VisitProducts_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_VisitProducts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_VisitProducts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -965,8 +832,8 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     CreatorUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -976,22 +843,11 @@ namespace SinaMN75Api.Migrations
                     GroupChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ReportType = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reports", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Reports_AspNetUsers_CreatorUserId",
-                        column: x => x.CreatorUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Reports_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Reports_Chats_ChatId",
                         column: x => x.ChatId,
@@ -1017,6 +873,16 @@ namespace SinaMN75Api.Migrations
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Reports_Users_CreatorUserId",
+                        column: x => x.CreatorUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Reports_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1024,9 +890,10 @@ namespace SinaMN75Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    UseCase = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Order = table.Column<int>(type: "int", nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ContentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -1039,17 +906,11 @@ namespace SinaMN75Api.Migrations
                     BookmarkId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Media", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Media_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Media_Bookmarks_BookmarkId",
                         column: x => x.BookmarkId,
@@ -1095,6 +956,11 @@ namespace SinaMN75Api.Migrations
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Media_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1106,17 +972,11 @@ namespace SinaMN75Api.Migrations
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductsInsight", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductsInsight_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ProductsInsight_Products_ProductId",
                         column: x => x.ProductId,
@@ -1127,56 +987,28 @@ namespace SinaMN75Api.Migrations
                         column: x => x.ReactionId,
                         principalTable: "Reaction",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ProductsInsight_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Contents",
+                columns: new[] { "Id", "CreatedAt", "Description", "SubTitle", "Tags", "Title", "Type", "UpdatedAt", "UseCase" },
+                values: new object[,]
+                {
+                    { new Guid("61b5a1b3-e6d3-49a7-8bf0-e9d5ba585c18"), null, "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.", "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)", "[]", "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)", "terms", null, "terms" },
+                    { new Guid("61f54f5d-5076-4449-9e06-1749ae675dea"), null, "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.", "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)", "[]", "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)", "aboutUs", null, "aboutUs" },
+                    { new Guid("af233cad-d72c-4823-a7eb-b9c942aa9609"), null, "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.", "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)", "[]", "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)", "homeBanner1", null, "homeBanner1" },
+                    { new Guid("d1827b50-ec7c-40bc-9f39-a87e96a45264"), null, "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.", "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)", "[]", "لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum)", "homeBanner2", null, "homeBanner2" }
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Address_UserId",
                 table: "Address",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetRoleClaims_RoleId",
-                table: "AspNetRoleClaims",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserClaims_UserId",
-                table: "AspNetUserClaims",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserLogins_UserId",
-                table: "AspNetUserLogins",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_RoleId",
-                table: "AspNetUserRoles",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "EmailIndex",
-                table: "AspNetUsers",
-                column: "NormalizedEmail");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_GroupChatEntityId",
-                table: "AspNetUsers",
-                column: "GroupChatEntityId");
-
-            migrationBuilder.CreateIndex(
-                name: "UserNameIndex",
-                table: "AspNetUsers",
-                column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookmarks_ParentId",
@@ -1267,6 +1099,11 @@ namespace SinaMN75Api.Migrations
                 name: "IX_Forms_UserId",
                 table: "Forms",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupChatEntityUserEntity_UsersId",
+                table: "GroupChatEntityUserEntity",
+                column: "UsersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GroupChatMessage_ForwardedMessageId",
@@ -1374,11 +1211,6 @@ namespace SinaMN75Api.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetail_CategoryId",
-                table: "OrderDetail",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_OrderDetail_OrderId",
                 table: "OrderDetail",
                 column: "OrderId");
@@ -1387,11 +1219,6 @@ namespace SinaMN75Api.Migrations
                 name: "IX_OrderDetail_ProductId",
                 table: "OrderDetail",
                 column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Otps_UserId",
-                table: "Otps",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_ChatEntityId",
@@ -1434,6 +1261,11 @@ namespace SinaMN75Api.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Promotion_CategoryId",
+                table: "Promotion",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Promotion_GroupChatId",
                 table: "Promotion",
                 column: "GroupChatId");
@@ -1447,6 +1279,11 @@ namespace SinaMN75Api.Migrations
                 name: "IX_Promotion_UserId",
                 table: "Promotion",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Promotion_UserPromotedId",
+                table: "Promotion",
+                column: "UserPromotedId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reaction_ChatsId",
@@ -1528,21 +1365,6 @@ namespace SinaMN75Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUserClaims");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUserLogins");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUserRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
                 name: "CategoryEntityGroupChatEntity");
 
             migrationBuilder.DropTable(
@@ -1558,13 +1380,13 @@ namespace SinaMN75Api.Migrations
                 name: "Forms");
 
             migrationBuilder.DropTable(
+                name: "GroupChatEntityUserEntity");
+
+            migrationBuilder.DropTable(
                 name: "Media");
 
             migrationBuilder.DropTable(
                 name: "OrderDetail");
-
-            migrationBuilder.DropTable(
-                name: "Otps");
 
             migrationBuilder.DropTable(
                 name: "ProductsInsight");
@@ -1583,9 +1405,6 @@ namespace SinaMN75Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Withdraw");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "FormFields");
@@ -1624,13 +1443,13 @@ namespace SinaMN75Api.Migrations
                 name: "GroupChatMessage");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "GroupChat");
 
             migrationBuilder.DropTable(
                 name: "SeenUsers");
 
             migrationBuilder.DropTable(
-                name: "GroupChat");
+                name: "Users");
         }
     }
 }
