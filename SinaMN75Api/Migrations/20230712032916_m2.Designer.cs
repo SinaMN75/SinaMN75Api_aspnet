@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SinaMN75Api;
 
@@ -11,9 +12,11 @@ using SinaMN75Api;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230712032916_m2")]
+    partial class m2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1120,48 +1123,6 @@ namespace SinaMN75Api.Migrations
                     b.ToTable("SeenUsers");
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.SubscriptionPaymentEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double?>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("PayDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("PromotionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubscriptionType")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PromotionId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SubscriptionPayment");
-                });
-
             modelBuilder.Entity("Utilities_aspnet.Entities.TransactionEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1203,12 +1164,6 @@ namespace SinaMN75Api.Migrations
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("SubscriptionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("SubscriptionPaymentId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int?>("TransactionType")
                         .HasColumnType("int");
 
@@ -1221,8 +1176,6 @@ namespace SinaMN75Api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("SubscriptionPaymentId");
 
                     b.HasIndex("UserId");
 
@@ -2205,38 +2158,17 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.SubscriptionPaymentEntity", b =>
-                {
-                    b.HasOne("Utilities_aspnet.Entities.PromotionEntity", "Promotion")
-                        .WithMany()
-                        .HasForeignKey("PromotionId");
-
-                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Promotion");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Utilities_aspnet.Entities.TransactionEntity", b =>
                 {
                     b.HasOne("Utilities_aspnet.Entities.OrderEntity", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId");
 
-                    b.HasOne("Utilities_aspnet.Entities.SubscriptionPaymentEntity", "SubscriptionPayment")
-                        .WithMany()
-                        .HasForeignKey("SubscriptionPaymentId");
-
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("Order");
-
-                    b.Navigation("SubscriptionPayment");
 
                     b.Navigation("User");
                 });

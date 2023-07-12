@@ -30,10 +30,11 @@ public class AppDbContext : DbContext {
 	public DbSet<PromotionEntity> Promotions { get; set; } = null!;
 	public DbSet<GroupChatEntity> GroupChats { get; set; } = null!;
 	public DbSet<GroupChatMessageEntity> GroupChatMessages { get; set; } = null!;
+	public DbSet<SubscriptionPaymentEntity> SubscriptionPayments { get; set; } = null!;
 
 	protected override void OnModelCreating(ModelBuilder builder) {
 		base.OnModelCreating(builder);
 		builder.SetupModelBuilder();
-		builder.SeedContent();
+		//builder.SeedContent();
 	}
 }
