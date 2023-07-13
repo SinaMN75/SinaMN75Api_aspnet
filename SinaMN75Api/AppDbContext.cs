@@ -18,7 +18,6 @@ public class AppDbContext : DbContext {
 	public DbSet<ContentEntity> Contents { get; set; } = null!;
 	public DbSet<CategoryEntity> Categories { get; set; } = null!;
 	public DbSet<FormFieldEntity> FormFields { get; set; } = null!;
-	public DbSet<ChatEntity> Chats { get; set; } = null!;
 	public DbSet<CommentEntity> Comments { get; set; } = null!;
 	public DbSet<OrderEntity> Orders { get; set; } = null!;
 	public DbSet<DiscountEntity> Discounts { get; set; } = null!;
@@ -35,6 +34,6 @@ public class AppDbContext : DbContext {
 	protected override void OnModelCreating(ModelBuilder builder) {
 		base.OnModelCreating(builder);
 		builder.SetupModelBuilder();
-		//builder.SeedContent();
+		// builder.SeedContent();
 	}
 }

@@ -216,48 +216,6 @@ namespace SinaMN75Api.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.ChatEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FromUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("MessageText")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("ReadMessage")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ToUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FromUserId");
-
-                    b.HasIndex("ParentId");
-
-                    b.HasIndex("ToUserId");
-
-                    b.ToTable("Chats");
-                });
-
             modelBuilder.Entity("Utilities_aspnet.Entities.CommentEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -592,8 +550,6 @@ namespace SinaMN75Api.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("ChatId");
-
                     b.HasIndex("CommentId");
 
                     b.HasIndex("ContentId");
@@ -747,9 +703,6 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int?>("PayType")
-                        .HasColumnType("int");
-
                     b.Property<string>("ProductOwnerId")
                         .HasColumnType("nvarchar(450)");
 
@@ -759,11 +712,9 @@ namespace SinaMN75Api.Migrations
                     b.Property<int?>("SendPrice")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SendType")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TotalPrice")
                         .HasColumnType("int");
@@ -796,9 +747,6 @@ namespace SinaMN75Api.Migrations
 
                     b.Property<DateTime>("Boosted")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("ChatEntityId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("CommentsCount")
                         .HasColumnType("int");
@@ -834,18 +782,12 @@ namespace SinaMN75Api.Migrations
                     b.Property<int?>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductState")
-                        .HasColumnType("int");
-
                     b.Property<string>("SeenUsers")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("State")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("Status")
-                        .HasColumnType("int");
 
                     b.Property<int?>("Stock")
                         .HasColumnType("int");
@@ -884,8 +826,6 @@ namespace SinaMN75Api.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ChatEntityId");
 
                     b.HasIndex("GroupChatEntityId");
 
@@ -1021,8 +961,6 @@ namespace SinaMN75Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChatsId");
-
                     b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
@@ -1034,9 +972,6 @@ namespace SinaMN75Api.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ChatId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CommentId")
@@ -1061,9 +996,6 @@ namespace SinaMN75Api.Migrations
                     b.Property<Guid?>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ReportType")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -1075,8 +1007,6 @@ namespace SinaMN75Api.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ChatId");
 
                     b.HasIndex("CommentId");
 
@@ -1141,10 +1071,10 @@ namespace SinaMN75Api.Migrations
                     b.Property<Guid?>("PromotionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("SubscriptionType")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubscriptionType")
+                    b.Property<int>("Tag")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -1575,31 +1505,6 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("Utilities_aspnet.Entities.ChatEntity", b =>
-                {
-                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "FromUser")
-                        .WithMany()
-                        .HasForeignKey("FromUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Utilities_aspnet.Entities.ChatEntity", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
-
-                    b.HasOne("Utilities_aspnet.Entities.UserEntity", "ToUser")
-                        .WithMany()
-                        .HasForeignKey("ToUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FromUser");
-
-                    b.Navigation("Parent");
-
-                    b.Navigation("ToUser");
-                });
-
             modelBuilder.Entity("Utilities_aspnet.Entities.CommentEntity", b =>
                 {
                     b.HasOne("Utilities_aspnet.Entities.CommentEntity", "Parent")
@@ -1782,10 +1687,6 @@ namespace SinaMN75Api.Migrations
                         .WithMany("Media")
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("Utilities_aspnet.Entities.ChatEntity", "Chat")
-                        .WithMany("Media")
-                        .HasForeignKey("ChatId");
-
                     b.HasOne("Utilities_aspnet.Entities.CommentEntity", "Comment")
                         .WithMany("Media")
                         .HasForeignKey("CommentId");
@@ -1828,9 +1729,6 @@ namespace SinaMN75Api.Migrations
                             b1.Property<string>("IsPrivate")
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("Link")
-                                .HasColumnType("nvarchar(max)");
-
                             b1.Property<string>("Size")
                                 .HasColumnType("nvarchar(max)");
 
@@ -1853,8 +1751,6 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("Bookmark");
 
                     b.Navigation("Category");
-
-                    b.Navigation("Chat");
 
                     b.Navigation("Comment");
 
@@ -1933,10 +1829,6 @@ namespace SinaMN75Api.Migrations
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ProductEntity", b =>
                 {
-                    b.HasOne("Utilities_aspnet.Entities.ChatEntity", null)
-                        .WithMany("Products")
-                        .HasForeignKey("ChatEntityId");
-
                     b.HasOne("Utilities_aspnet.Entities.GroupChatEntity", null)
                         .WithMany("Products")
                         .HasForeignKey("GroupChatEntityId");
@@ -2141,10 +2033,6 @@ namespace SinaMN75Api.Migrations
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ReactionEntity", b =>
                 {
-                    b.HasOne("Utilities_aspnet.Entities.ChatEntity", "Chats")
-                        .WithMany("ChatReacts")
-                        .HasForeignKey("ChatsId");
-
                     b.HasOne("Utilities_aspnet.Entities.ProductEntity", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
@@ -2153,8 +2041,6 @@ namespace SinaMN75Api.Migrations
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.Navigation("Chats");
-
                     b.Navigation("Product");
 
                     b.Navigation("User");
@@ -2162,10 +2048,6 @@ namespace SinaMN75Api.Migrations
 
             modelBuilder.Entity("Utilities_aspnet.Entities.ReportEntity", b =>
                 {
-                    b.HasOne("Utilities_aspnet.Entities.ChatEntity", "Chat")
-                        .WithMany()
-                        .HasForeignKey("ChatId");
-
                     b.HasOne("Utilities_aspnet.Entities.CommentEntity", "Comment")
                         .WithMany()
                         .HasForeignKey("CommentId");
@@ -2189,8 +2071,6 @@ namespace SinaMN75Api.Migrations
                     b.HasOne("Utilities_aspnet.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Chat");
 
                     b.Navigation("Comment");
 
@@ -2348,15 +2228,6 @@ namespace SinaMN75Api.Migrations
                     b.Navigation("FormFields");
 
                     b.Navigation("Media");
-                });
-
-            modelBuilder.Entity("Utilities_aspnet.Entities.ChatEntity", b =>
-                {
-                    b.Navigation("ChatReacts");
-
-                    b.Navigation("Media");
-
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Utilities_aspnet.Entities.CommentEntity", b =>
