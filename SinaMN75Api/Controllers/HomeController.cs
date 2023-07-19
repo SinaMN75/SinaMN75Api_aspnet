@@ -45,12 +45,16 @@ public class HomeController : Controller
     }
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [HttpGet("PayOrderZarinPal/{orderId}")]
-    public async Task<GenericResponse<string?>> BuyProduct(Guid orderId) => await _paymentRepository.PayOrderZarinPal(orderId);
+    [HttpGet("PayOrderZarinPal/{orderId:guid}")]
+    public async Task<GenericResponse<string?>> PayOrder(Guid orderId) => await _paymentRepository.PayOrder(orderId);
+    
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpGet("PayProductZarinPal/{orderId:guid}")]
+    public async Task<GenericResponse<string>> PayProduct(Guid orderId) => await _paymentRepository.PayProduct(orderId);
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("PaySubscriptionZarinPal/{subscriptionId:guid}")]
-    public async Task<GenericResponse<string?>> UpgradeAccount(Guid subscriptionId) => await _paymentRepository.PaySubscriptionZarinPal(subscriptionId);
+    public async Task<GenericResponse<string?>> UpgradeAccount(Guid subscriptionId) => await _paymentRepository.PayOrder(subscriptionId);
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet("CallBackSubscription/{subscriptionId:guid}")]
