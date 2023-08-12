@@ -54,7 +54,7 @@ public class HomeController : Controller
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("PaySubscriptionZarinPal/{subscriptionId:guid}")]
-    public async Task<GenericResponse<string?>> UpgradeAccount(Guid subscriptionId) => await _paymentRepository.PayOrder(subscriptionId);
+    public async Task<GenericResponse<string?>> UpgradeAccount(Guid subscriptionId) => await _paymentRepository.PaySubscription(subscriptionId);
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet("CallBackSubscription/{subscriptionId:guid}")]
