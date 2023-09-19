@@ -22,7 +22,7 @@ namespace SinaMN75Api.Migrations
                     UseCase = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Type = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Order = table.Column<int>(type: "int", nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -48,30 +48,12 @@ namespace SinaMN75Api.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: true),
                     Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contents", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Discount",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    DiscountPercent = table.Column<int>(type: "int", nullable: true),
-                    NumberUses = table.Column<int>(type: "int", nullable: true),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Discount", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -139,6 +121,7 @@ namespace SinaMN75Api.Migrations
                     IsPrivate = table.Column<bool>(type: "bit", nullable: false),
                     ExpireUpgradeAccount = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AgeCategory = table.Column<int>(type: "int", nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     VisitedProducts = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BookmarkedProducts = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -247,6 +230,31 @@ namespace SinaMN75Api.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Discount",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    DiscountPrice = table.Column<int>(type: "int", nullable: false),
+                    NumberUses = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Discount", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Discount_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -507,6 +515,7 @@ namespace SinaMN75Api.Migrations
                     Status = table.Column<int>(type: "int", nullable: true),
                     ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -1017,6 +1026,11 @@ namespace SinaMN75Api.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Comment_UserId",
                 table: "Comment",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Discount_UserId",
+                table: "Discount",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
