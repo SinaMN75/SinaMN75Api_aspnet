@@ -1916,7 +1916,28 @@ namespace SinaMN75Api.Migrations
                         .WithMany()
                         .HasForeignKey("UserId");
 
+                    b.OwnsOne("System.Collections.Generic.List<Utilities_aspnet.Entities.ReservationDays>", "DaysReserved", b1 =>
+                        {
+                            b1.Property<Guid>("OrderEntityId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Capacity")
+                                .HasColumnType("int");
+
+                            b1.HasKey("OrderEntityId");
+
+                            b1.ToTable("Order");
+
+                            b1.ToJson("DaysReserved");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderEntityId");
+                        });
+
                     b.Navigation("Address");
+
+                    b.Navigation("DaysReserved")
+                        .IsRequired();
 
                     b.Navigation("ProductOwner");
 

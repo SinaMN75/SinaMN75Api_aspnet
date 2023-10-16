@@ -12,15 +12,15 @@ using SinaMN75Api;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230928113224_m8")]
-    partial class m8
+    [Migration("20231016110954_m2")]
+    partial class m2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0-preview.5.23280.1")
+                .HasAnnotation("ProductVersion", "8.0.0-rc.2.23480.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -1148,17 +1148,16 @@ namespace SinaMN75Api.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int?>("StatusId")
-                        .HasColumnType("int");
-
                     b.Property<Guid?>("SubscriptionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("SubscriptionPaymentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("TransactionType")
-                        .HasColumnType("int");
+                    b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -1568,9 +1567,8 @@ namespace SinaMN75Api.Migrations
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("int");
 
-                                    b2.Property<string>("Reaction")
-                                        .IsRequired()
-                                        .HasColumnType("nvarchar(max)");
+                                    b2.Property<int>("Reaction")
+                                        .HasColumnType("int");
 
                                     b2.Property<string>("UserId")
                                         .IsRequired()
@@ -1716,8 +1714,8 @@ namespace SinaMN75Api.Migrations
                             b1.Property<DateTime?>("Boosted")
                                 .HasColumnType("datetime2");
 
-                            b1.Property<string>("ChatStatus")
-                                .HasColumnType("nvarchar(max)");
+                            b1.Property<int?>("ChatStatus")
+                                .HasColumnType("int");
 
                             b1.Property<string>("Department")
                                 .HasColumnType("nvarchar(max)");
@@ -1725,8 +1723,8 @@ namespace SinaMN75Api.Migrations
                             b1.Property<string>("Description")
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("Priority")
-                                .HasColumnType("nvarchar(max)");
+                            b1.Property<int?>("Priority")
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .HasColumnType("nvarchar(max)");
@@ -1827,8 +1825,8 @@ namespace SinaMN75Api.Migrations
                             b1.Property<string>("Artist")
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("IsPrivate")
-                                .HasColumnType("nvarchar(max)");
+                            b1.Property<int?>("IsPrivate")
+                                .HasColumnType("int");
 
                             b1.Property<string>("Size")
                                 .HasColumnType("nvarchar(max)");
@@ -1921,7 +1919,28 @@ namespace SinaMN75Api.Migrations
                         .WithMany()
                         .HasForeignKey("UserId");
 
+                    b.OwnsOne("System.Collections.Generic.List<Utilities_aspnet.Entities.ReservationDays>", "DaysReserved", b1 =>
+                        {
+                            b1.Property<Guid>("OrderEntityId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Capacity")
+                                .HasColumnType("int");
+
+                            b1.HasKey("OrderEntityId");
+
+                            b1.ToTable("Order");
+
+                            b1.ToJson("DaysReserved");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderEntityId");
+                        });
+
                     b.Navigation("Address");
+
+                    b.Navigation("DaysReserved")
+                        .IsRequired();
 
                     b.Navigation("ProductOwner");
 
@@ -2029,8 +2048,8 @@ namespace SinaMN75Api.Migrations
                             b1.Property<string>("Unit")
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("UserReaction")
-                                .HasColumnType("nvarchar(max)");
+                            b1.Property<int?>("UserReaction")
+                                .HasColumnType("int");
 
                             b1.Property<string>("Website")
                                 .HasColumnType("nvarchar(max)");
@@ -2072,6 +2091,152 @@ namespace SinaMN75Api.Migrations
                                     b2.WithOwner()
                                         .HasForeignKey("ProductJsonDetailProductEntityId");
                                 });
+
+                            b1.OwnsMany("Utilities_aspnet.Entities.ReservationDays", "DaysAvailable", b2 =>
+                                {
+                                    b2.Property<Guid>("ProductJsonDetailProductEntityId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<int>("Id")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("int");
+
+                                    b2.Property<DateTime>("DateFrom")
+                                        .HasColumnType("datetime2");
+
+                                    b2.Property<DateTime>("DateTo")
+                                        .HasColumnType("datetime2");
+
+                                    b2.Property<int>("MaxExtraMemberAllowed")
+                                        .HasColumnType("int");
+
+                                    b2.Property<int>("MaxMemberAllowed")
+                                        .HasColumnType("int");
+
+                                    b2.Property<int>("Price")
+                                        .HasColumnType("int");
+
+                                    b2.Property<int>("PriceForAnyExtra")
+                                        .HasColumnType("int");
+
+                                    b2.HasKey("ProductJsonDetailProductEntityId", "Id");
+
+                                    b2.ToTable("Products");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("ProductJsonDetailProductEntityId");
+
+                                    b2.OwnsMany("Utilities_aspnet.Entities.ReservationHours", "Times", b3 =>
+                                        {
+                                            b3.Property<Guid>("ReservationDaysProductJsonDetailProductEntityId")
+                                                .HasColumnType("uniqueidentifier");
+
+                                            b3.Property<int>("ReservationDaysId")
+                                                .HasColumnType("int");
+
+                                            b3.Property<int>("Id")
+                                                .ValueGeneratedOnAdd()
+                                                .HasColumnType("int");
+
+                                            b3.Property<string>("ReservedByUserId")
+                                                .IsRequired()
+                                                .HasColumnType("nvarchar(max)");
+
+                                            b3.Property<string>("ReservedByUserName")
+                                                .IsRequired()
+                                                .HasColumnType("nvarchar(max)");
+
+                                            b3.Property<DateTime>("TimeFrom")
+                                                .HasColumnType("datetime2");
+
+                                            b3.Property<DateTime>("TimeTo")
+                                                .HasColumnType("datetime2");
+
+                                            b3.HasKey("ReservationDaysProductJsonDetailProductEntityId", "ReservationDaysId", "Id");
+
+                                            b3.ToTable("Products");
+
+                                            b3.WithOwner()
+                                                .HasForeignKey("ReservationDaysProductJsonDetailProductEntityId", "ReservationDaysId");
+                                        });
+
+                                    b2.Navigation("Times");
+                                });
+
+                            b1.OwnsMany("Utilities_aspnet.Entities.ReservationDays", "DaysReserved", b2 =>
+                                {
+                                    b2.Property<Guid>("ProductJsonDetailProductEntityId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<int>("Id")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("int");
+
+                                    b2.Property<DateTime>("DateFrom")
+                                        .HasColumnType("datetime2");
+
+                                    b2.Property<DateTime>("DateTo")
+                                        .HasColumnType("datetime2");
+
+                                    b2.Property<int>("MaxExtraMemberAllowed")
+                                        .HasColumnType("int");
+
+                                    b2.Property<int>("MaxMemberAllowed")
+                                        .HasColumnType("int");
+
+                                    b2.Property<int>("Price")
+                                        .HasColumnType("int");
+
+                                    b2.Property<int>("PriceForAnyExtra")
+                                        .HasColumnType("int");
+
+                                    b2.HasKey("ProductJsonDetailProductEntityId", "Id");
+
+                                    b2.ToTable("Products");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("ProductJsonDetailProductEntityId");
+
+                                    b2.OwnsMany("Utilities_aspnet.Entities.ReservationHours", "Times", b3 =>
+                                        {
+                                            b3.Property<Guid>("ReservationDaysProductJsonDetailProductEntityId")
+                                                .HasColumnType("uniqueidentifier");
+
+                                            b3.Property<int>("ReservationDaysId")
+                                                .HasColumnType("int");
+
+                                            b3.Property<int>("Id")
+                                                .ValueGeneratedOnAdd()
+                                                .HasColumnType("int");
+
+                                            b3.Property<string>("ReservedByUserId")
+                                                .IsRequired()
+                                                .HasColumnType("nvarchar(max)");
+
+                                            b3.Property<string>("ReservedByUserName")
+                                                .IsRequired()
+                                                .HasColumnType("nvarchar(max)");
+
+                                            b3.Property<DateTime>("TimeFrom")
+                                                .HasColumnType("datetime2");
+
+                                            b3.Property<DateTime>("TimeTo")
+                                                .HasColumnType("datetime2");
+
+                                            b3.HasKey("ReservationDaysProductJsonDetailProductEntityId", "ReservationDaysId", "Id");
+
+                                            b3.ToTable("Products");
+
+                                            b3.WithOwner()
+                                                .HasForeignKey("ReservationDaysProductJsonDetailProductEntityId", "ReservationDaysId");
+                                        });
+
+                                    b2.Navigation("Times");
+                                });
+
+                            b1.Navigation("DaysAvailable");
+
+                            b1.Navigation("DaysReserved");
 
                             b1.Navigation("KeyValues");
                         });
@@ -2265,20 +2430,20 @@ namespace SinaMN75Api.Migrations
                             b1.Property<string>("Instagram")
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("LegalAuthenticationType")
-                                .HasColumnType("nvarchar(max)");
+                            b1.Property<int?>("LegalAuthenticationType")
+                                .HasColumnType("int");
 
                             b1.Property<string>("LinkedIn")
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("NationalityType")
-                                .HasColumnType("nvarchar(max)");
+                            b1.Property<int?>("NationalityType")
+                                .HasColumnType("int");
 
                             b1.Property<string>("Pinterest")
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<string>("PrivacyType")
-                                .HasColumnType("nvarchar(max)");
+                            b1.Property<int?>("PrivacyType")
+                                .HasColumnType("int");
 
                             b1.Property<string>("ShebaNumber")
                                 .HasColumnType("nvarchar(max)");

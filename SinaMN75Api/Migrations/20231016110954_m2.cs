@@ -11,19 +11,19 @@ namespace SinaMN75Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "UserAgent",
-                table: "Users",
-                type: "nvarchar(100)",
-                maxLength: 100,
-                nullable: true);
+                name: "DaysReserved",
+                table: "Order",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "UserAgent",
-                table: "Users");
+                name: "DaysReserved",
+                table: "Order");
         }
     }
 }
