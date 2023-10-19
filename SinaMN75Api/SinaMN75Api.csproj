@@ -19,4 +19,11 @@
       </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\Medias\products\contents\b6d4e942-3117-4058-9d4e-ff1b8ccc978f.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\Medias\groupChats\contents\b6d4e942-3117-4058-9d4e-ff1b8ccc978f.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\Medias\groupChatsMessages\contents\b6d4e942-3117-4058-9d4e-ff1b8ccc978f.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\Medias\notifications\contents\b6d4e942-3117-4058-9d4e-ff1b8ccc978f.png" />
+    </ItemGroup>
+
 </Project>
