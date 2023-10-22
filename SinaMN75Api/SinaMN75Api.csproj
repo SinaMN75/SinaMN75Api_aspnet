@@ -6,7 +6,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <UserSecretsId>sinamn75f4efb4b8bfd14ae780367e76e0cf054b</UserSecretsId>
-    </PropertyGroup>
+		<LangVersion>preview</LangVersion>
+	</PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Utilities_aspnet\Utilities_aspnet.csproj" />
