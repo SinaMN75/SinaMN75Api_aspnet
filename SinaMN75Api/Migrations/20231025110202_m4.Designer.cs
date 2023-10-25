@@ -12,7 +12,7 @@ using SinaMN75Api;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231025092331_m4")]
+    [Migration("20231025110202_m4")]
     partial class m4
     {
         /// <inheritdoc />
@@ -719,6 +719,9 @@ namespace SinaMN75Api.Migrations
                     b.Property<int?>("DiscountPrice")
                         .HasColumnType("int");
 
+                    b.Property<int>("OrderNumber")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("PayDateTime")
                         .HasColumnType("datetime2");
 
@@ -1366,8 +1369,9 @@ namespace SinaMN75Api.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ShebaNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -2157,11 +2161,9 @@ namespace SinaMN75Api.Migrations
                                                 .HasColumnType("int");
 
                                             b3.Property<string>("ReservedByUserId")
-                                                .IsRequired()
                                                 .HasColumnType("nvarchar(max)");
 
                                             b3.Property<string>("ReservedByUserName")
-                                                .IsRequired()
                                                 .HasColumnType("nvarchar(max)");
 
                                             b3.Property<DateTime>("TimeFrom")
@@ -2228,11 +2230,9 @@ namespace SinaMN75Api.Migrations
                                                 .HasColumnType("int");
 
                                             b3.Property<string>("ReservedByUserId")
-                                                .IsRequired()
                                                 .HasColumnType("nvarchar(max)");
 
                                             b3.Property<string>("ReservedByUserName")
-                                                .IsRequired()
                                                 .HasColumnType("nvarchar(max)");
 
                                             b3.Property<DateTime>("TimeFrom")
