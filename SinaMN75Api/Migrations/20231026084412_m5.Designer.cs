@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SinaMN75Api;
 
@@ -11,9 +12,11 @@ using SinaMN75Api;
 namespace SinaMN75Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231026084412_m5")]
+    partial class m5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -716,9 +719,6 @@ namespace SinaMN75Api.Migrations
                     b.Property<int?>("DiscountPrice")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderNumber")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("PayDateTime")
                         .HasColumnType("datetime2");
 
@@ -1366,9 +1366,8 @@ namespace SinaMN75Api.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ShebaNumber")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -1938,73 +1937,27 @@ namespace SinaMN75Api.Migrations
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.OwnsOne("Utilities_aspnet.Entities.OrderJsonDetail", "JsonDetail", b1 =>
+                    b.OwnsOne("System.Collections.Generic.List<Utilities_aspnet.Entities.ReservationDays>", "DaysReserved", b1 =>
                         {
                             b1.Property<Guid>("OrderEntityId")
                                 .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Capacity")
+                                .HasColumnType("int");
 
                             b1.HasKey("OrderEntityId");
 
                             b1.ToTable("Order");
 
-                            b1.ToJson("JsonDetail");
+                            b1.ToJson("DaysReserved");
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderEntityId");
-
-                            b1.OwnsMany("Utilities_aspnet.Entities.ReserveDto", "DaysReserved", b2 =>
-                                {
-                                    b2.Property<Guid>("OrderJsonDetailOrderEntityId")
-                                        .HasColumnType("uniqueidentifier");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("int");
-
-                                    b2.Property<DateTime>("DateFrom")
-                                        .HasColumnType("datetime2");
-
-                                    b2.Property<DateTime>("DateTo")
-                                        .HasColumnType("datetime2");
-
-                                    b2.Property<int>("ExtraMemberCount")
-                                        .HasColumnType("int");
-
-                                    b2.Property<int>("MemberCount")
-                                        .HasColumnType("int");
-
-                                    b2.Property<int>("Price")
-                                        .HasColumnType("int");
-
-                                    b2.Property<int>("PriceForAnyExtra")
-                                        .HasColumnType("int");
-
-                                    b2.Property<DateTime>("TimeFrom")
-                                        .HasColumnType("datetime2");
-
-                                    b2.Property<DateTime>("TimeTo")
-                                        .HasColumnType("datetime2");
-
-                                    b2.Property<string>("UserId")
-                                        .HasColumnType("nvarchar(max)");
-
-                                    b2.Property<string>("UserName")
-                                        .HasColumnType("nvarchar(max)");
-
-                                    b2.HasKey("OrderJsonDetailOrderEntityId", "Id");
-
-                                    b2.ToTable("Order");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("OrderJsonDetailOrderEntityId");
-                                });
-
-                            b1.Navigation("DaysReserved");
                         });
 
                     b.Navigation("Address");
 
-                    b.Navigation("JsonDetail")
+                    b.Navigation("DaysReserved")
                         .IsRequired();
 
                     b.Navigation("ProductOwner");
@@ -2204,9 +2157,11 @@ namespace SinaMN75Api.Migrations
                                                 .HasColumnType("int");
 
                                             b3.Property<string>("ReservedByUserId")
+                                                .IsRequired()
                                                 .HasColumnType("nvarchar(max)");
 
                                             b3.Property<string>("ReservedByUserName")
+                                                .IsRequired()
                                                 .HasColumnType("nvarchar(max)");
 
                                             b3.Property<DateTime>("TimeFrom")
@@ -2273,9 +2228,11 @@ namespace SinaMN75Api.Migrations
                                                 .HasColumnType("int");
 
                                             b3.Property<string>("ReservedByUserId")
+                                                .IsRequired()
                                                 .HasColumnType("nvarchar(max)");
 
                                             b3.Property<string>("ReservedByUserName")
+                                                .IsRequired()
                                                 .HasColumnType("nvarchar(max)");
 
                                             b3.Property<DateTime>("TimeFrom")
