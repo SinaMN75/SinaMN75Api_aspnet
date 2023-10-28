@@ -20,15 +20,7 @@ public class HomeController(IPaymentRepository paymentRepository) : Controller {
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	[HttpGet("IncreaseWalletBalance/{amount:double}")]
 	public async Task<GenericResponse<string?>> IncreaseWalletBalance(int amount) => await paymentRepository.IncreaseWalletBalance(amount);
-
-	[ApiExplorerSettings(IgnoreApi = true)]
-	[HttpGet("WalletCallBack/{userId}/{amount:int}")]
-	[HttpPost("WalletCallBack/{userId}/{amount:int}")]
-	public async Task<IActionResult> WalletCallBack(string userId, int amount, string authority, string status) {
-		GenericResponse i = await paymentRepository.WalletCallBack(amount, authority, status, userId);
-		return RedirectToAction(i.Status == UtilitiesStatusCodes.Success ? nameof(Verify) : nameof(Fail));
-	}
-
+	
 	[ApiExplorerSettings(IgnoreApi = true)]
 	[HttpGet("CallBack/{tagPayment}/{id}")]
 	[HttpPost("CallBack/{tagPayment}/{id}")]
