@@ -20,15 +20,19 @@ public class HomeController(IPaymentRepository paymentRepository) : Controller {
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	[HttpGet("IncreaseWalletBalance/{amount:double}")]
 	public async Task<GenericResponse<string?>> IncreaseWalletBalance(int amount) => await paymentRepository.IncreaseWalletBalance(amount);
-	
+
 	[ApiExplorerSettings(IgnoreApi = true)]
 	[HttpGet("CallBack/{tagPayment}/{id}")]
 	[HttpPost("CallBack/{tagPayment}/{id}")]
 	public async Task<IActionResult> CallBack(int tagPayment, string id, int success, int status, long trackId) {
 		if (status != 2 || success != 1) return RedirectToAction(nameof(Fail));
-		await paymentRepository.CallBack(tagPayment, id, success, status, trackId);
+		await paymentRepository.CallBack(tagPayment, id, trackId);
 		return RedirectToAction(nameof(Verify));
 	}
+
+	[HttpGet("CallBackFake/{tagPayment}/{id}/{trackId}")]
+	public async Task<GenericResponse> CallBackFake(int tagPayment, string id, long trackId = 1234) 
+		=> await paymentRepository.CallBackFake(tagPayment, id, trackId);
 
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	[HttpGet("PayOrderZarinPal/{orderId}")]
