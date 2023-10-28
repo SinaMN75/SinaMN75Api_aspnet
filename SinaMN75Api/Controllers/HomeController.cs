@@ -6,62 +6,51 @@ using Utilities_aspnet.Utilities;
 
 namespace SinaMN75Api.Controllers;
 
-public class HomeController : Controller
-{
-    public IActionResult Index() => View();
+public class HomeController(IPaymentRepository paymentRepository) : Controller {
+	public IActionResult Index() => View();
 
-    private readonly IPaymentRepository _paymentRepository;
+	[ApiExplorerSettings(IgnoreApi = true)]
+	[HttpGet("Fail")]
+	public ActionResult Fail() => View();
 
-    public HomeController(IPaymentRepository paymentRepository) => _paymentRepository = paymentRepository;
+	[ApiExplorerSettings(IgnoreApi = true)]
+	[HttpGet("Verify")]
+	public ActionResult Verify() => View("~/Views/Home/Verify.cshtml");
 
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [HttpGet("IncreaseWalletBalance/{amount:double}")]
-    public async Task<GenericResponse<string?>> IncreaseWalletBalance(int amount) => await _paymentRepository.IncreaseWalletBalance(amount);
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	[HttpGet("IncreaseWalletBalance/{amount:double}")]
+	public async Task<GenericResponse<string?>> IncreaseWalletBalance(int amount) => await paymentRepository.IncreaseWalletBalance(amount);
 
-    [ApiExplorerSettings(IgnoreApi = true)]
-    [HttpGet("WalletCallBack/{userId}/{amount:int}")]
-    [HttpPost("WalletCallBack/{userId}/{amount:int}")]
-    public async Task<IActionResult> WalletCallBack(string userId, int amount, string authority, string status)
-    {
-        GenericResponse i = await _paymentRepository.WalletCallBack(amount, authority, status, userId);
-        return RedirectToAction(i.Status == UtilitiesStatusCodes.Success ? nameof(Verify) : nameof(Fail));
-    }
+	[ApiExplorerSettings(IgnoreApi = true)]
+	[HttpGet("WalletCallBack/{userId}/{amount:int}")]
+	[HttpPost("WalletCallBack/{userId}/{amount:int}")]
+	public async Task<IActionResult> WalletCallBack(string userId, int amount, string authority, string status) {
+		GenericResponse i = await paymentRepository.WalletCallBack(amount, authority, status, userId);
+		return RedirectToAction(i.Status == UtilitiesStatusCodes.Success ? nameof(Verify) : nameof(Fail));
+	}
 
-    [ApiExplorerSettings(IgnoreApi = true)]
-    [HttpGet("Fail")]
-    public ActionResult Fail() => View();
+	[ApiExplorerSettings(IgnoreApi = true)]
+	[HttpGet("CallBack/{orderId}")]
+	[HttpPost("CallBack/{orderId}")]
+	public async Task<IActionResult> CallBack(string orderId, int success, int status, long trackId) {
+		if (status != 2 || success != 1) return RedirectToAction(nameof(Fail));
+		await paymentRepository.CallBack(orderId, success, status, trackId);
+		return RedirectToAction(nameof(Verify));
+	}
 
-    [ApiExplorerSettings(IgnoreApi = true)]
-    [HttpGet("Verify")]
-    public ActionResult Verify() => View("~/Views/Home/Verify.cshtml");
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	[HttpGet("PayOrderZarinPal/{orderId}")]
+	public async Task<GenericResponse<string?>> PayOrder(Guid orderId) => await paymentRepository.PayOrder(orderId);
 
-    [ApiExplorerSettings(IgnoreApi = true)]
-    [HttpGet("CallBack/{productId:guid}")]
-    [HttpPost("CallBack/{productId:guid}")]
-    public async Task<IActionResult> CallBack(Guid productId, string authority, string status)
-    {
-        GenericResponse i = await _paymentRepository.CallBack(productId, authority, status);
-        return RedirectToAction(i.Status == UtilitiesStatusCodes.Success ? nameof(Verify) : nameof(Fail));
-    }
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	[HttpGet("PaySubscriptionZarinPal/{subscriptionId}")]
+	public async Task<GenericResponse<string?>> UpgradeAccount(Guid subscriptionId) => await paymentRepository.PaySubscription(subscriptionId);
 
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [HttpGet("PayOrderZarinPal/{orderId:guid}")]
-    public async Task<GenericResponse<string?>> PayOrder(Guid orderId) => await _paymentRepository.PayOrder(orderId);
-    
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [HttpGet("PayProductZarinPal/{orderId:guid}")]
-    public async Task<GenericResponse<string>> PayProduct(Guid orderId) => await _paymentRepository.PayProduct(orderId);
-
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [HttpGet("PaySubscriptionZarinPal/{subscriptionId:guid}")]
-    public async Task<GenericResponse<string?>> UpgradeAccount(Guid subscriptionId) => await _paymentRepository.PaySubscription(subscriptionId);
-
-    [ApiExplorerSettings(IgnoreApi = true)]
-    [HttpGet("CallBackSubscription/{subscriptionId:guid}")]
-    [HttpPost("CallBackSubscription/{subscriptionId:guid}")]
-    public async Task<IActionResult> WalletCallBack(Guid subscriptionId, string authority, string status)
-    {
-        GenericResponse i = await _paymentRepository.CallBackSubscription(subscriptionId, authority, status);
-        return RedirectToAction(i.Status == UtilitiesStatusCodes.Success ? nameof(Verify) : nameof(Fail));
-    }
+	[ApiExplorerSettings(IgnoreApi = true)]
+	[HttpGet("CallBackSubscription/{subscriptionId}")]
+	[HttpPost("CallBackSubscription/{subscriptionId}")]
+	public async Task<IActionResult> WalletCallBack(Guid subscriptionId, string authority, string status) {
+		GenericResponse i = await paymentRepository.CallBackSubscription(subscriptionId, authority, status);
+		return RedirectToAction(i.Status == UtilitiesStatusCodes.Success ? nameof(Verify) : nameof(Fail));
+	}
 }
