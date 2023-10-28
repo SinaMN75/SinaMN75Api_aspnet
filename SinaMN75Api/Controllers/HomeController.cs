@@ -30,11 +30,11 @@ public class HomeController(IPaymentRepository paymentRepository) : Controller {
 	}
 
 	[ApiExplorerSettings(IgnoreApi = true)]
-	[HttpGet("CallBack/{orderId}")]
-	[HttpPost("CallBack/{orderId}")]
-	public async Task<IActionResult> CallBack(string orderId, int success, int status, long trackId) {
+	[HttpGet("CallBack/{tagPayment}/{id}")]
+	[HttpPost("CallBack/{tagPayment}/{id}")]
+	public async Task<IActionResult> CallBack(int tagPayment, string id, int success, int status, long trackId) {
 		if (status != 2 || success != 1) return RedirectToAction(nameof(Fail));
-		await paymentRepository.CallBack(orderId, success, status, trackId);
+		await paymentRepository.CallBack(tagPayment, id, success, status, trackId);
 		return RedirectToAction(nameof(Verify));
 	}
 
