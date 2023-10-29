@@ -25,7 +25,6 @@ public class AppDbContext : DbContext {
 	public DbSet<VisitProducts> VisitProducts { get; set; } = null!;
 	public DbSet<ReactionEntity> ReactionEntity { get; set; } = null!;
 	public DbSet<SeenUsers> SeenUsers { get; set; } = null!;
-	public DbSet<WithdrawEntity> Withdraw { get; set; } = null!;
 	public DbSet<PromotionEntity> Promotions { get; set; } = null!;
 	public DbSet<GroupChatEntity> GroupChats { get; set; } = null!;
 	public DbSet<GroupChatMessageEntity> GroupChatMessages { get; set; } = null!;
