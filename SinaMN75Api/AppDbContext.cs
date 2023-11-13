@@ -12,12 +12,10 @@ public class AppDbContext : DbContext {
 	public DbSet<TransactionEntity> Transactions { get; set; } = null!;
 	public DbSet<ReportEntity> Reports { get; set; } = null!;
 	public DbSet<NotificationEntity> Notifications { get; set; } = null!;
-	public DbSet<FormEntity> Forms { get; set; } = null!;
 	public DbSet<BookmarkEntity> Bookmarks { get; set; } = null!;
 	public DbSet<MediaEntity> Media { get; set; } = null!;
 	public DbSet<ContentEntity> Contents { get; set; } = null!;
 	public DbSet<CategoryEntity> Categories { get; set; } = null!;
-	public DbSet<FormFieldEntity> FormFields { get; set; } = null!;
 	public DbSet<CommentEntity> Comments { get; set; } = null!;
 	public DbSet<OrderEntity> Orders { get; set; } = null!;
 	public DbSet<DiscountEntity> Discounts { get; set; } = null!;
