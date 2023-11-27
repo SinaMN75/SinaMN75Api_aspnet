@@ -15,18 +15,16 @@ namespace SinaMN75Api.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    TitleTr1 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    TitleTr2 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Order = table.Column<int>(type: "int", nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    TitleTr1 = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    TitleTr2 = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Order = table.Column<int>(type: "integer", nullable: true),
+                    Tags = table.Column<int[]>(type: "integer[]", maxLength: 100, nullable: false),
+                    ParentId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    JsonDetail = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,14 +40,15 @@ namespace SinaMN75Api.Migrations
                 name: "Contents",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    SubTitle = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    SubTitle = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Description = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Tags = table.Column<int[]>(type: "integer[]", maxLength: 100, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    JsonDetail = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,13 +59,13 @@ namespace SinaMN75Api.Migrations
                 name: "GroupChat",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    CreatorUserId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Type = table.Column<int>(type: "int", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    CreatorUserId = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Type = table.Column<int>(type: "integer", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    JsonDetail = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,12 +76,12 @@ namespace SinaMN75Api.Migrations
                 name: "SeenUsers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FkGroupChat = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    FkUserId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    FkGroupChatMessage = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    FkGroupChat = table.Column<Guid>(type: "uuid", nullable: true),
+                    FkUserId = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    FkGroupChatMessage = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -93,43 +92,44 @@ namespace SinaMN75Api.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Headline = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Bio = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    AppUserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    AppPhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    AppEmail = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Region = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Badge = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    JobStatus = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    UserAgent = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    MutedChats = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Gender = table.Column<int>(type: "int", nullable: true),
-                    Wallet = table.Column<int>(type: "int", nullable: true),
-                    Point = table.Column<double>(type: "float", nullable: true),
-                    Birthdate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsOnline = table.Column<bool>(type: "bit", nullable: true),
-                    Suspend = table.Column<bool>(type: "bit", nullable: true),
-                    IsPrivate = table.Column<bool>(type: "bit", nullable: false),
-                    ExpireUpgradeAccount = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AgeCategory = table.Column<int>(type: "int", nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    VisitedProducts = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BookmarkedProducts = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FollowingUsers = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FollowedUsers = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BlockedUsers = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    LastName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    FullName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Headline = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Bio = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
+                    AppUserName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    AppPhoneNumber = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    UserName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    PhoneNumber = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    AppEmail = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Region = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    State = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Badge = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    JobStatus = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    UserAgent = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    MutedChats = table.Column<string>(type: "text", nullable: true),
+                    Gender = table.Column<int>(type: "integer", nullable: true),
+                    Wallet = table.Column<long>(type: "bigint", nullable: true),
+                    Point = table.Column<double>(type: "double precision", nullable: true),
+                    Birthdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsOnline = table.Column<bool>(type: "boolean", nullable: true),
+                    Suspend = table.Column<bool>(type: "boolean", nullable: true),
+                    IsPrivate = table.Column<bool>(type: "boolean", nullable: false),
+                    ExpireUpgradeAccount = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    AgeCategory = table.Column<int>(type: "integer", nullable: true),
+                    CommentCount = table.Column<int>(type: "integer", nullable: false),
+                    Tags = table.Column<int[]>(type: "integer[]", nullable: false),
+                    Password = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    VisitedProducts = table.Column<string>(type: "text", nullable: false),
+                    BookmarkedProducts = table.Column<string>(type: "text", nullable: false),
+                    FollowingUsers = table.Column<string>(type: "text", nullable: false),
+                    FollowedUsers = table.Column<string>(type: "text", nullable: false),
+                    BlockedUsers = table.Column<string>(type: "text", nullable: false),
+                    JsonDetail = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -137,34 +137,11 @@ namespace SinaMN75Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FormFields",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Label = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    IsRequired = table.Column<bool>(type: "bit", nullable: true),
-                    OptionList = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    Type = table.Column<int>(type: "int", nullable: true),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FormFields", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_FormFields_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CategoryEntityGroupChatEntity",
                 columns: table => new
                 {
-                    CategoriesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GroupChatsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    CategoriesId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GroupChatsId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -187,17 +164,17 @@ namespace SinaMN75Api.Migrations
                 name: "Address",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ReceiverFullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ReceiverPhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Pelak = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Unit = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    PostalCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ReceiverFullName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    ReceiverPhoneNumber = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Address = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Pelak = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    Unit = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    PostalCode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    IsDefault = table.Column<bool>(type: "boolean", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -213,8 +190,8 @@ namespace SinaMN75Api.Migrations
                 name: "CategoryEntityUserEntity",
                 columns: table => new
                 {
-                    CategoriesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    CategoriesId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UsersId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -237,16 +214,16 @@ namespace SinaMN75Api.Migrations
                 name: "Discount",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    DiscountPrice = table.Column<int>(type: "int", nullable: false),
-                    NumberUses = table.Column<int>(type: "int", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    DiscountPrice = table.Column<long>(type: "bigint", nullable: false),
+                    NumberUses = table.Column<int>(type: "integer", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,8 +239,8 @@ namespace SinaMN75Api.Migrations
                 name: "GroupChatEntityUserEntity",
                 columns: table => new
                 {
-                    GroupChatsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    GroupChatsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UsersId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -286,17 +263,15 @@ namespace SinaMN75Api.Migrations
                 name: "GroupChatMessage",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    GroupChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ForwardedMessageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SeenUsersId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Message = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
+                    GroupChatId = table.Column<Guid>(type: "uuid", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    ForwardedMessageId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ParentId = table.Column<Guid>(type: "uuid", nullable: true),
+                    SeenUsersId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -329,48 +304,28 @@ namespace SinaMN75Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Withdraw",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ShebaNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Amount = table.Column<int>(type: "int", nullable: true),
-                    WithdrawState = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Withdraw", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Withdraw_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Order",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    DiscountCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    PayNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    TotalPrice = table.Column<int>(type: "int", nullable: true),
-                    DiscountPrice = table.Column<int>(type: "int", nullable: true),
-                    DiscountPercent = table.Column<int>(type: "int", nullable: true),
-                    SendPrice = table.Column<int>(type: "int", nullable: true),
-                    PayDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ReceivedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeliverDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProductOwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    DiscountCode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    PayNumber = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    OrderNumber = table.Column<int>(type: "integer", nullable: false),
+                    TotalPrice = table.Column<long>(type: "bigint", nullable: true),
+                    DiscountPrice = table.Column<long>(type: "bigint", nullable: true),
+                    DiscountPercent = table.Column<int>(type: "integer", nullable: true),
+                    SendPrice = table.Column<long>(type: "bigint", nullable: true),
+                    PayDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ReceivedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DeliverDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    AddressId = table.Column<Guid>(type: "uuid", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    ProductOwnerId = table.Column<string>(type: "text", nullable: true),
+                    Tags = table.Column<int[]>(type: "integer[]", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    JsonDetail = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -396,33 +351,33 @@ namespace SinaMN75Api.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Subtitle = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Boosted = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Stock = table.Column<int>(type: "int", nullable: true),
-                    VoteCount = table.Column<int>(type: "int", nullable: true),
-                    DiscountPercent = table.Column<int>(type: "int", nullable: true),
-                    CommentsCount = table.Column<int>(type: "int", nullable: true),
-                    DiscountPrice = table.Column<int>(type: "int", nullable: true),
-                    Price = table.Column<int>(type: "int", nullable: true),
-                    Currency = table.Column<int>(type: "int", nullable: true),
-                    AgeCategory = table.Column<int>(type: "int", nullable: true),
-                    ExpireDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    SeenUsers = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Teams = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    GroupChatEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    GroupChatMessageEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Subtitle = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
+                    State = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Region = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Boosted = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Stock = table.Column<int>(type: "integer", nullable: true),
+                    VoteCount = table.Column<int>(type: "integer", nullable: true),
+                    DiscountPercent = table.Column<int>(type: "integer", nullable: true),
+                    CommentsCount = table.Column<int>(type: "integer", nullable: true),
+                    DiscountPrice = table.Column<long>(type: "bigint", nullable: true),
+                    Price = table.Column<long>(type: "bigint", nullable: true),
+                    Currency = table.Column<int>(type: "integer", nullable: true),
+                    AgeCategory = table.Column<int>(type: "integer", nullable: true),
+                    ExpireDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    SeenUsers = table.Column<string>(type: "text", nullable: true),
+                    Teams = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    ParentId = table.Column<Guid>(type: "uuid", nullable: true),
+                    GroupChatMessageEntityId = table.Column<Guid>(type: "uuid", nullable: true),
+                    GroupChatMessageId = table.Column<Guid>(type: "uuid", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    Tags = table.Column<int[]>(type: "integer[]", maxLength: 100, nullable: true),
+                    GroupChatEntityId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    JsonDetail = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -453,13 +408,13 @@ namespace SinaMN75Api.Migrations
                 name: "Bookmarks",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FolderName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    FolderName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ParentId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -485,8 +440,8 @@ namespace SinaMN75Api.Migrations
                 name: "CategoryEntityProductEntity",
                 columns: table => new
                 {
-                    CategoriesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    CategoriesId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProductsId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -509,17 +464,18 @@ namespace SinaMN75Api.Migrations
                 name: "Comment",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Score = table.Column<double>(type: "float", nullable: true),
-                    Comment = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: true),
-                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Score = table.Column<double>(type: "double precision", nullable: true),
+                    Comment = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: true),
+                    ParentId = table.Column<Guid>(type: "uuid", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    TargetUserId = table.Column<string>(type: "text", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Tags = table.Column<int[]>(type: "integer[]", maxLength: 100, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    JsonDetail = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -535,45 +491,12 @@ namespace SinaMN75Api.Migrations
                         principalTable: "Products",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Comment_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Comment_Users_TargetUserId",
+                        column: x => x.TargetUserId,
                         principalTable: "Users",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Forms",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    FormFieldId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CategoryEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Forms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Forms_Categories_CategoryEntityId",
-                        column: x => x.CategoryEntityId,
-                        principalTable: "Categories",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Forms_FormFields_FormFieldId",
-                        column: x => x.FormFieldId,
-                        principalTable: "FormFields",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Forms_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Forms_Users_UserId",
+                        name: "FK_Comment_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -583,19 +506,18 @@ namespace SinaMN75Api.Migrations
                 name: "Notifications",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Message = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    Link = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    SeenStatus = table.Column<int>(type: "int", nullable: true),
-                    Visited = table.Column<bool>(type: "bit", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatorUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Message = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    Link = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    Tags = table.Column<int[]>(type: "integer[]", maxLength: 100, nullable: true),
+                    SeenStatus = table.Column<int>(type: "integer", nullable: true),
+                    Visited = table.Column<bool>(type: "boolean", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    CreatorUserId = table.Column<string>(type: "text", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -621,15 +543,15 @@ namespace SinaMN75Api.Migrations
                 name: "OrderDetail",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UnitPrice = table.Column<int>(type: "int", nullable: true),
-                    Count = table.Column<int>(type: "int", nullable: true),
-                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Vote = table.Column<int>(type: "int", nullable: true),
-                    FinalPrice = table.Column<int>(type: "int", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UnitPrice = table.Column<long>(type: "bigint", nullable: true),
+                    Count = table.Column<int>(type: "integer", nullable: true),
+                    OrderId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Vote = table.Column<int>(type: "integer", nullable: true),
+                    FinalPrice = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -650,20 +572,20 @@ namespace SinaMN75Api.Migrations
                 name: "Promotion",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DisplayType = table.Column<int>(type: "int", nullable: false),
-                    Skills = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    Gender = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    AgeCategories = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    States = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Users = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    GroupChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserPromotedId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DisplayType = table.Column<int>(type: "integer", nullable: false),
+                    Skills = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    Gender = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    AgeCategories = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    States = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Users = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    GroupChatId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: true),
+                    UserPromotedId = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -699,13 +621,13 @@ namespace SinaMN75Api.Migrations
                 name: "Reaction",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Reaction = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ChatsId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Reaction = table.Column<int>(type: "integer", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    ChatsId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -726,11 +648,11 @@ namespace SinaMN75Api.Migrations
                 name: "VisitProducts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -751,17 +673,17 @@ namespace SinaMN75Api.Migrations
                 name: "Reports",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    CreatorUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CommentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    GroupChatMessageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    GroupChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    CreatorUserId = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CommentId = table.Column<Guid>(type: "uuid", nullable: true),
+                    GroupChatMessageId = table.Column<Guid>(type: "uuid", nullable: true),
+                    GroupChatId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -802,24 +724,23 @@ namespace SinaMN75Api.Migrations
                 name: "Media",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FileName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    UseCase = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Order = table.Column<int>(type: "int", nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ContentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CommentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    NotificationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    GroupChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    GroupChatMessageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    BookmarkId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    JsonDetail = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    FileName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Order = table.Column<int>(type: "integer", nullable: true),
+                    Tags = table.Column<int[]>(type: "integer[]", maxLength: 100, nullable: true),
+                    ContentId = table.Column<Guid>(type: "uuid", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CommentId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ChatId = table.Column<Guid>(type: "uuid", nullable: true),
+                    NotificationId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: true),
+                    GroupChatId = table.Column<Guid>(type: "uuid", nullable: true),
+                    GroupChatMessageId = table.Column<Guid>(type: "uuid", nullable: true),
+                    BookmarkId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    JsonDetail = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -875,16 +796,16 @@ namespace SinaMN75Api.Migrations
                 name: "SubscriptionPayment",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SubscriptionType = table.Column<int>(type: "int", nullable: false),
-                    Tag = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<double>(type: "float", nullable: true),
-                    PayDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    PromotionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    SubscriptionType = table.Column<int>(type: "integer", nullable: false),
+                    Tag = table.Column<int>(type: "integer", nullable: false),
+                    Amount = table.Column<long>(type: "bigint", nullable: true),
+                    PayDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    PromotionId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -905,12 +826,12 @@ namespace SinaMN75Api.Migrations
                 name: "ProductsInsight",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ReactionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ReactionId = table.Column<Guid>(type: "uuid", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -936,21 +857,18 @@ namespace SinaMN75Api.Migrations
                 name: "Transactions",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: true),
-                    Descriptions = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    Authority = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    GatewayName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    PaymentId = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    ShebaNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    RefId = table.Column<long>(type: "bigint", nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SubscriptionPaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SubscriptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Amount = table.Column<long>(type: "bigint", nullable: true),
+                    Descriptions = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    RefId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    CardNumber = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
+                    Tags = table.Column<int[]>(type: "integer[]", maxLength: 100, nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    OrderId = table.Column<Guid>(type: "uuid", nullable: true),
+                    SubscriptionPaymentId = table.Column<Guid>(type: "uuid", nullable: true),
+                    SubscriptionId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1023,6 +941,11 @@ namespace SinaMN75Api.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comment_TargetUserId",
+                table: "Comment",
+                column: "TargetUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comment_UserId",
                 table: "Comment",
                 column: "UserId");
@@ -1030,31 +953,6 @@ namespace SinaMN75Api.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Discount_UserId",
                 table: "Discount",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FormFields_CategoryId",
-                table: "FormFields",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Forms_CategoryEntityId",
-                table: "Forms",
-                column: "CategoryEntityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Forms_FormFieldId",
-                table: "Forms",
-                column: "FormFieldId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Forms_ProductId",
-                table: "Forms",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Forms_UserId",
-                table: "Forms",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -1306,11 +1204,6 @@ namespace SinaMN75Api.Migrations
                 name: "IX_VisitProducts_UserId",
                 table: "VisitProducts",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Withdraw_UserId",
-                table: "Withdraw",
-                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -1327,9 +1220,6 @@ namespace SinaMN75Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Discount");
-
-            migrationBuilder.DropTable(
-                name: "Forms");
 
             migrationBuilder.DropTable(
                 name: "GroupChatEntityUserEntity");
@@ -1351,12 +1241,6 @@ namespace SinaMN75Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "VisitProducts");
-
-            migrationBuilder.DropTable(
-                name: "Withdraw");
-
-            migrationBuilder.DropTable(
-                name: "FormFields");
 
             migrationBuilder.DropTable(
                 name: "Bookmarks");
