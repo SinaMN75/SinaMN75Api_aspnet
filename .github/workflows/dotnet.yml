@@ -8,42 +8,19 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    name: Build
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+      - name: build and deploy docker image
+        uses: fifsky/ssh-action@master
         with:
-          dotnet-version: 8.0.100-rc.2.23502.2
-      - name: Init Utilities
-        run: git submodule update --init
-      - name: Get Utilities
-        run: git submodule update --remote -f
-      - name: Restore dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build --no-restore
-      - name: Publish
-        run: dotnet publish -c Release
-#      - name: Stop IIS
-#        uses: im-open/iis-service-action@v1.0.7
-#        with:
-#          action: 'stop'
-#          server: ${{ env.server }}
-#          service-account-id: ${{ secrets.iis_admin_user }}
-#          service-account-password: ${{ secrets.iis_admin_password }}
-      - name: Deploy
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
-        with:
-          local-dir: SinaMN75Api/bin/Release/net8.0/publish/
-          server: 130.185.77.215
-          username: api.sinamn75.com
-          password: BetterSoft1234!@#$
-#      - name: Start IIS
-#        uses: im-open/iis-service-action@v1.0.7
-#        with:
-#          action: 'start'
-#          server: api.sinamn75.com
-#          service-account-id: Administrator
-#          service-account-password: WX?w_f4f7yn5Dszb
-
+          command: |
+            cd /www/wwwroot/api.sinamn75.com
+            git pull https://SinaMN75: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@github.com/BetterSoftCo/SinaMN75_aspnet.git
+            git submodule update --remote -f
+            docker-compose up -d --build --force-recreate
+            /etc/init.d/nginx restart
+          host: 45.139.11.86
+          user: root
+          pass: BetterSoft1234
+          

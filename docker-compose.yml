@@ -1,14 +1,14 @@
 ﻿services:
-  sinamn75api:
+  directshodapi:
     image: sinamn75api
     build: .
     ports:
-      - "8085:80"
-      - "8081:443"
+      - "8090:80"
+      - "8091:443"
     environment:
-      ASPNETCORE_URLS: "https://+;http://+"
-      ASPNETCORE_HTTPS_PORT: "8081"
       ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "https://+:443;http://+:80"
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "BetterSoft1234"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
     volumes:
-      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets
-      - ~/.aspnet/https:/root/.aspnet/https
+      - ~/.aspnet/https:/https:ro
