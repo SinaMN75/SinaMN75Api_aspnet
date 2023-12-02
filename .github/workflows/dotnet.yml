@@ -16,7 +16,7 @@ jobs:
         with:
           command: |
             cd /www/wwwroot/api.sinamn75.com
-            git pull https://SinaMN75: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@github.com/BetterSoftCo/SinaMN75Api_aspnet.git
+            git pull https://github.com/SinaMN75/SinaMN75Api_aspnet.git
             git submodule update --remote -f
             docker-compose up -d --build --force-recreate
             /etc/init.d/nginx restart
