@@ -1,5 +1,5 @@
 ﻿services:
-  directshodapi:
+  sinamn75api:
     image: sinamn75api
     build: .
     ports:
