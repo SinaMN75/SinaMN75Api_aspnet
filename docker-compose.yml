@@ -3,8 +3,8 @@
     image: sinamn75api
     build: .
     ports:
-      - "8085:80"
-      - "8081:443"
+      - "8090:80"
+      - "8091:443"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       ASPNETCORE_URLS: "https://+:443;http://+:80"
