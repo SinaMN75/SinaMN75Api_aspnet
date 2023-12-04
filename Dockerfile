@@ -7,7 +7,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["SinaMN75Api/SinaMN75Api.csproj", "SinaMN75Api/"]
 COPY ["Utilities_aspnet/Utilities_aspnet.csproj", "Utilities_aspnet/"]
-RUN dotnet restore "SinaMN75Api/SinaMN75Api.csproj"
+RUN dotnet restore "SinaMN75Api/SinaMN75Api.csproj" --disable-parallel
 COPY . .
 WORKDIR "/src/SinaMN75Api"
 RUN dotnet build "SinaMN75Api.csproj" -c Release -o /app/build
