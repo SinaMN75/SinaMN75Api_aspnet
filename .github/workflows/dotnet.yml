@@ -12,17 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: build and deploy docker image
-        uses: fifsky/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.0
         with:
-          command: |
+          host: 45.139.11.86
+          username: root
+          password: BetterSoft1234
+          port: 22
+          script: |
             cd /www/wwwroot/api.sinamn75.com
-            git pull https://github.com/SinaMN75/SinaMN75Api_aspnet.git
+            git pull https://SinaMN75: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@github.com/SinaMN75/SinaMN75Api_aspnet.git
             git submodule update --remote -f
             docker-compose stop
-#            docker-compose rm -f
             docker-compose up -d --build --force-recreate
             /etc/init.d/nginx restart
-          host: 45.139.11.86
-          user: root
-          pass: BetterSoft1234
           
