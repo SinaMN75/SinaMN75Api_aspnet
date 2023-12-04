@@ -14,7 +14,7 @@ jobs:
       - name: build and deploy docker image
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: 45.139.11.86
+          host: 82.115.20.41
           username: root
           password: BetterSoft1234
           port: 22
