@@ -12,4 +12,4 @@
       ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/sinamn75api.pfx"
     volumes:
       - ~/.aspnet/https:/https:ro
-      - /www/wwwroot/api.sinamn75.com/SinaMN75Api/wwwroot/Medias
+      - /www/wwwroot/api.sinamn75.com/SinaMN75Api/wwwroot
