@@ -13,3 +13,5 @@
     volumes:
       - ~/.aspnet/https:/https:ro
       - /www/wwwroot/api.sinamn75.com/SinaMN75Api/wwwroot
+      - /www/wwwroot/api.sinamn75.com/SinaMN75Api/wwwroot/Medias
+      - /www/wwwroot/api.sinamn75.com/SinaMN75Api/wwwroot/Medias/users
