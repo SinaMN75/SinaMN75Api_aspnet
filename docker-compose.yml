@@ -1,10 +1,10 @@
 ﻿services:
   sinamn75api:
-    image: sinamn75api
+#    image: sinamn75api
     build: .
-    ports:
-      - "8090:80"
-      - "8091:443"
+#    ports:
+#      - "8090:80"
+#      - "8091:443"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       ASPNETCORE_URLS: "https://+:443;http://+:80"
@@ -13,3 +13,14 @@
     volumes:
       - ~/.aspnet/https:/https:ro
       - /www/wwwroot/api.sinamn75.com/SinaMN75Api/wwwroot:/app/wwwroot
+    
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+        
+    depends_on: 
+      - sinamn75api
+    ports:
+      - "8090:80"
+      - "8091:443"
