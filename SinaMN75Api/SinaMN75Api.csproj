@@ -26,4 +26,8 @@
         <_ContentIncludedByDefault Remove="wwwroot\Medias\notifications\contents\b6d4e942-3117-4058-9d4e-ff1b8ccc978f.png"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\Report\" />
+    </ItemGroup>
+
 </Project>
