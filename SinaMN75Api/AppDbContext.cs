@@ -4,9 +4,7 @@ using Utilities_aspnet.Utilities;
 
 namespace SinaMN75Api;
 
-public class AppDbContext : DbContext {
-	public AppDbContext(DbContextOptions options) : base(options) { }
-
+public class AppDbContext(DbContextOptions options) : DbContext(options) {
 	public DbSet<UserEntity> Users { get; set; } = null!;
 	public DbSet<ProductEntity> Products { get; set; } = null!;
 	public DbSet<TransactionEntity> Transactions { get; set; } = null!;
@@ -26,7 +24,6 @@ public class AppDbContext : DbContext {
 	public DbSet<PromotionEntity> Promotions { get; set; } = null!;
 	public DbSet<GroupChatEntity> GroupChats { get; set; } = null!;
 	public DbSet<GroupChatMessageEntity> GroupChatMessages { get; set; } = null!;
-	public DbSet<SubscriptionPaymentEntity> SubscriptionPayments { get; set; } = null!;
 
 	protected override void OnModelCreating(ModelBuilder builder) {
 		base.OnModelCreating(builder);

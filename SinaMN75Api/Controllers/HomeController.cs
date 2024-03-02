@@ -19,7 +19,7 @@ public class HomeController(IPaymentRepository paymentRepository) : Controller {
 
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	[HttpGet("IncreaseWalletBalance/{amount:double}")]
-	public async Task<GenericResponse<string?>> IncreaseWalletBalance(int amount) => await paymentRepository.IncreaseWalletBalance(amount);
+	public Task<GenericResponse<string>> IncreaseWalletBalance(int amount) => paymentRepository.IncreaseWalletBalance(amount);
 
 	[ApiExplorerSettings(IgnoreApi = true)]
 	[HttpGet("CallBack/{tagPayment}/{id}")]
@@ -30,23 +30,7 @@ public class HomeController(IPaymentRepository paymentRepository) : Controller {
 		return RedirectToAction(nameof(Verify));
 	}
 
-	[HttpGet("CallBackFake/{tagPayment}/{id}/{trackId}")]
-	public async Task<GenericResponse> CallBackFake(int tagPayment, string id, long trackId = 1234) 
-		=> await paymentRepository.CallBackFake(tagPayment, id, trackId);
-
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	[HttpGet("PayOrderZarinPal/{orderId}")]
 	public async Task<GenericResponse<string?>> PayOrder(Guid orderId) => await paymentRepository.PayOrder(orderId);
-
-	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-	[HttpGet("PaySubscriptionZarinPal/{subscriptionId}")]
-	public async Task<GenericResponse<string?>> UpgradeAccount(Guid subscriptionId) => await paymentRepository.PaySubscription(subscriptionId);
-
-	[ApiExplorerSettings(IgnoreApi = true)]
-	[HttpGet("CallBackSubscription/{subscriptionId}")]
-	[HttpPost("CallBackSubscription/{subscriptionId}")]
-	public async Task<IActionResult> WalletCallBack(Guid subscriptionId, string authority, string status) {
-		GenericResponse i = await paymentRepository.CallBackSubscription(subscriptionId, authority, status);
-		return RedirectToAction(i.Status == UtilitiesStatusCodes.Success ? nameof(Verify) : nameof(Fail));
-	}
 }
